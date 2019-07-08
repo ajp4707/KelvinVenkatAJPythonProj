@@ -1,5 +1,5 @@
-pygame.display.set_mode((rows, cols))
-surface = pygame.Surface((rows, cols))
+pygame.display.set_mode((x,y))
+surface = pygame.Surface((x,y))
 surface.fill((r,g,b))
 
 while loop:
