@@ -1,1 +1,1 @@
-class cards
+class cards:
