@@ -7,10 +7,10 @@ class Deck():
         #Creates a standard 52 card deck
         for suit in Suits:
             for val in range(1,14):
-                self.List.append(card(val, suit, 0, "deck"))
+                self.List.append(Card(val, suit, 0, "deck"))
         #Jokers have the value 0 and the suit "joker"
         if int(joker):
-            self.List.append(card(0, "joker", 0, "deck"))
+            self.List.append(Card(0, "joker", 0, "deck"))
         self.shuffle()
     #Shuffles the deck regardless of size
     def shuffle(self):
