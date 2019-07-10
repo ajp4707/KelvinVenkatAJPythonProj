@@ -1,6 +1,10 @@
 import sys
 import pygame
 from pygame.locals import*
+import Deck
+import Card
+from Card import *
+
 
 #Screen Constants
 SCREEN_WIDTH = 1200
@@ -24,12 +28,13 @@ screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 
 #Creates middle area
 middle = pygame.Surface((MIDDLE_WIDTH,MIDDLE_HEIGHT))
-middle.fill(WHITE)
+middle.fill(GREEN)
 middlerect = middle.get_rect()
 pygame.display.flip()
 
 #REPLACE with card objects .... pygame.rect.Rect((x,y), (len, height))
-card = pygame.rect.Rect((SCREEN_WIDTH/2,SCREEN_HEIGHT/2),(30,17))
+cardimage = Card(13,"Cpades",0,"deck").getImage()
+cardrect = cardimage.get_rect()
 card_dragging = False
 
 #clock controls FPS of game
@@ -47,11 +52,11 @@ while running:
         
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:            
-                if card.collidepoint(event.pos):
+                if cardrect.collidepoint(event.pos):
                     card_dragging = True
                     mouse_x, mouse_y = event.pos
-                    offset_x = card.x - mouse_x
-                    offset_y = card.y - mouse_y
+                    offset_x = cardrect.x - mouse_x
+                    offset_y = cardrect.y - mouse_y
         
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
@@ -60,8 +65,8 @@ while running:
         elif event.type == pygame.MOUSEMOTION:
             if card_dragging:
                 mouse_x, mouse_y = event.pos
-                card.x = mouse_x + offset_x
-                card.y = mouse_y + offset_y
+                cardrect.x = mouse_x + offset_x
+                cardrect.y = mouse_y + offset_y
                 
     #if card collides with certain areas, update card status below
     '''
@@ -71,7 +76,7 @@ while running:
     '''
     screen.fill(BLACK) #background
     screen.blit(middle, (SCREEN_WIDTH/2 - MIDDLE_WIDTH/2, SCREEN_HEIGHT/2 - MIDDLE_HEIGHT/2)) #middle
-    pygame.draw.rect(screen, RED, card) #card
+    screen.blit(cardimage, (cardrect.x, cardrect.y)) #card
     pygame.display.flip() 
     
     clock.tick(30)
