@@ -1,11 +1,12 @@
-import Card.py
+import Card
 import random
+
 class Deck():
     def __init__(self, joker):
         self.List=list()
-        self.Suits= ["clubs", "diamonds", "hearts", "spades"]
+        self.Suits= ["Clubs", "Diamonds", "Hearts", "Spades"]
         #Creates a standard 52 card deck
-        for suit in Suits:
+        for suit in self.Suits:
             for val in range(1,14):
                 self.List.append(Card(val, suit, 0, "deck"))
         #Jokers have the value 0 and the suit "joker"
