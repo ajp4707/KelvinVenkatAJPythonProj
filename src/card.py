@@ -1,24 +1,38 @@
+'''
+Created on Jul 9, 2019
+
+@author: ajp47
+'''
 import pygame
 
 class Card(pygame.sprite.Sprite):
-    def __init__ (self, val, suit, hid, loc):
+    CARD_WIDTH = 75
+    CARD_HEIGHT = 113
+    
+    def __init__ (self, val, suit, hid, x, y):
         super(Card,self).__init__()
         
         self.value= int(val)
         self.suit = suit
         self.hidden= int(hid)
-        self.location=loc
+        
         self.name=""
         self.setName()
-        self.surf = pygame.surface.Surface((40,40))
-        self.image = pygame.transform.scale(pygame.image.load(f'cardimages/{self.name}{self.suit[0]}.png').convert(), (75,113))
-        self.back = pygame.transform.scale(pygame.image.load(f'cardimages/blue_back.png').convert(), (75,113))
-
+        self.image = pygame.transform.scale(pygame.image.load(f'cardimages/{self.name}{self.suit[0]}.png').convert(), (self.CARD_WIDTH, self.CARD_HEIGHT))
+        self.back = pygame.transform.scale(pygame.image.load(f'cardimages/blue_back.png').convert(), (self.CARD_WIDTH,self.CARD_HEIGHT))
+        self.rect = self.image.get_rect()
+        self.rect.x = x 
+        self.rect.y = y
+        
+        self.dragging = False
+        
     def getImage(self):
         if self.hidden:
             return self.back
         else:
             return self.image
+        
+    
     
     def toggleHide(self):
         self.hidden = not self.hidden
