@@ -1,8 +1,3 @@
-'''
-Created on Jul 9, 2019
-
-@author: ajp47
-'''
 import pygame
 from pygame.constants import RLEACCEL
 
