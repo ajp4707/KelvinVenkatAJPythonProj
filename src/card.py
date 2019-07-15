@@ -1,9 +1,10 @@
+
 import pygame
 from pygame.constants import RLEACCEL
 
 class Card(pygame.sprite.Sprite):
     CARD_WIDTH = 75
-    CARD_HEIGHT = 113
+    CARD_HEIGHT = 114
     BACK = pygame.image.load(f'cardimages/blue_back.png')
     
     
@@ -48,3 +49,6 @@ class Card(pygame.sprite.Sprite):
             self.name = "K"
         else:
             self.name = str(self.value)
+            
+    
+    
