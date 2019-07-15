@@ -1,50 +1,52 @@
-'''
-Created on Jul 9, 2019
 
-@author: ajp47
-'''
-import pygame
+from Card import*
+import random
 
-class Card(pygame.sprite.Sprite):
-    CARD_WIDTH = 75
-    CARD_HEIGHT = 113
+#I think Deck should be an abstract representation of ALL cards
+#I propose a new class called DeckArea that extends Hand class, but is where all cards initially start
+#DeckArea would inherit the Group class, which allows iteration over all Sprites (cards) in the group
+class Deck():
+    def __init__(self, joker, x, y):
+        self.List=list()
+        self.Suits= ["Clubs", "Diamonds", "Hearts", "Spades"]
+        
+        self.x = x 
+        self.y = y
+        #Creates a standard 52 card deck
+        for suit in self.Suits:
+            for val in range(1,14):
+                self.List.append(Card(val, suit, 1, x, y))
+        #Jokers have the value 0 and the suit "joker"
+        if int(joker):
+            self.addJoker(1, x, y)
+        self.shuffle()
+        
+        
+    #Shuffles the deck regardless of size
+    def shuffle(self):
+        size=len(self.List)
+        for i in range(0,500):
+            idx= random.randint(1,size-1)
+            self.List.append(self.List.pop(idx))
+
+    def hide(self):
+        for card in self.List:
+            card.hidden = 1
     
-    def __init__ (self, val, suit, hid, x, y):
-        super(Card,self).__init__()
-        
-        self.value= int(val)
-        self.suit = suit
-        self.hidden= int(hid)
-        
-        self.name=""
-        self.setName()
-        self.image = pygame.transform.scale(pygame.image.load(f'cardimages/{self.name}{self.suit[0]}.png').convert(), (self.CARD_WIDTH, self.CARD_HEIGHT))
-        self.back = pygame.transform.scale(pygame.image.load(f'cardimages/blue_back.png').convert(), (self.CARD_WIDTH,self.CARD_HEIGHT))
-        self.rect = self.image.get_rect()
-        self.rect.x = x 
-        self.rect.y = y
-        
-        self.dragging = False
-        
-    def getImage(self):
-        if self.hidden:
-            return self.back
-        else:
-            return self.image
-        
+    #NEEDS WORK. Move selected cards.rect to specific hand locations. Perhaps even stagger cards so you can see them all
+    #I propose removing this method from this class and adding it to DeckArea class.
+    '''
+    def deal (self, num, x, y):
+        for i in range(0, num):
+            
+            card.rect.x = x 
+            card.rect.y = y
+            temp.append(card)
+        return temp
+    '''
+    def undrag(self):
+        for card in self.List:
+            card.dragging = False
     
-    
-    def toggleHide(self):
-        self.hidden = not self.hidden
-        
-    def setName(self):
-        if self.value == 1:
-            self.name = "A"
-        elif self.value == 11:
-            self.name = "J"
-        elif self.value == 12:
-            self.name = "Q"
-        elif self.value == 13:
-            self.name = "K"
-        else:
-            self.name = str(self.value)
+    def addJoker(self, hid, x, y):
+        self.List.append(Card(0, "Joker", hid, (x,y)))
