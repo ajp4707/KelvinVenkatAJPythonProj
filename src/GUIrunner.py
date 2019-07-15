@@ -5,6 +5,7 @@ from Deck import *
 from Card import *
 from Hand import *
 from Middle import *
+from DeckArea import *
 
 #Screen and Hand Constants
 SCREEN_WIDTH = 1200
@@ -13,7 +14,7 @@ SCREEN_HEIGHT = 700
 MIDDLE_WIDTH = 800
 MIDDLE_HEIGHT = 400
 
-HORIZ_HAND_WIDTH = 600
+HORIZ_HAND_WIDTH = 800
 HORIZ_HAND_HEIGHT = 133
 
 VERT_HAND_WIDTH = 176
@@ -45,8 +46,10 @@ hands.append(Hand(HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT, int(SCREEN_WIDTH/2 - HORI
 hands.append(Hand(VERT_HAND_WIDTH, VERT_HAND_HEIGHT, 100 - VERT_HAND_WIDTH/2, int(SCREEN_HEIGHT/2 - VERT_HAND_HEIGHT/2), MOCCASIN))
 
 #initialize deck. In the future, determine whose turn it is?
-deck = Deck(0, 20, 20)
-hands[0].hidecards = False
+
+deck = Deck(0, 100 - Card.CARD_WIDTH/2, 75 - Card.CARD_HEIGHT/2)
+deckarea = DeckArea(VERT_HAND_WIDTH,HORIZ_HAND_HEIGHT, 100 - VERT_HAND_WIDTH/2, 75 - HORIZ_HAND_HEIGHT/2, GRULLO, hands)
+deckarea.update(deck)
 
 #clock controls FPS of game
 clock = pygame.time.Clock()
@@ -61,8 +64,12 @@ while running:
         if event.type == KEYDOWN:    #we can add many more commands here if we want
             if event.key == K_ESCAPE:
                 running = False
+            elif event.key == K_SPACE:
+                deckarea.deal(7)
+                print("check space")
         elif event.type == QUIT:
             running = False
+        
         #MOUSEBUTTONDOWN 3 is a right click, drags all of the cards. button 1 is a left click, drags one card
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 3:                   
@@ -87,7 +94,9 @@ while running:
                 deck.undrag()
             elif event.button == 1:
                 deck.undrag()
+            
             deck.hide()
+            deckarea.update(deck)
             for hand in hands:
                 hand.update(deck)
                 hand.flip()
@@ -106,6 +115,7 @@ while running:
     
     screen.fill(DARK_PUCE)
     screen.blit(middle.surf, (middle.x, middle.y))
+    screen.blit(deckarea.surf, (deckarea.x, deckarea.y))
     for hand in hands:
         screen.blit(hand.surf, (hand.x, hand.y))
     for card in deck.List:
