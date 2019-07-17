@@ -1,10 +1,9 @@
-from Hand import Hand
-class DeckArea(Hand):
+import Hand
+class deckArea(Hand.Hand):
 
     def __init__(self, width, height, x, y, color, handlist):
-        super().__init__(width, height, x, y, color)
+        super().__init__(width, height, x, y, color,True)
         self.handList = handlist
-    
     #n is number of cards to deal to each hand
     def deal(self, n):
         handnum = len(self.handList)
