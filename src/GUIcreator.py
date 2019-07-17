@@ -5,7 +5,7 @@ from Deck import *
 from Card import *
 from Hand import *
 from Middle import *
-from DeckArea import DeckArea
+from deckArea import deckArea
 #Screen and Hand Constants
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 700
@@ -31,45 +31,53 @@ ELEC_BLUE = (5, 142, 217)
 MOCCASIN = (244, 235, 217)
 GRULLO = (163, 154, 146)
 
+#Color Schemes
+colorSchemes=[[DARK_PUCE, ELEC_BLUE,MOCCASIN,GRULLO]]
+
 #mouse variables
 mouse_x = 0
 mouse_y = 0
 
 #initializes pygame module and window
-def createScreen():
+def createScreen(color):
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
-    middle = Middle(MIDDLE_WIDTH, MIDDLE_HEIGHT, SCREEN_WIDTH/2 - MIDDLE_WIDTH/2, SCREEN_HEIGHT/2 - MIDDLE_HEIGHT/2, ELEC_BLUE )
+    middle = Middle(MIDDLE_WIDTH, MIDDLE_HEIGHT, SCREEN_WIDTH/2 - MIDDLE_WIDTH/2, SCREEN_HEIGHT/2 - MIDDLE_HEIGHT/2, color )
     return middle,screen
 
+def createDiscard(color):
+    discardarea = Hand(VERT_HAND_WIDTH,HORIZ_HAND_HEIGHT, 1100 - VERT_HAND_WIDTH/2, 625 - HORIZ_HAND_HEIGHT/2, color)
+    return discardarea
     #Creates middle area and hands. 
-def createHands(handNum):
+def createHands(color, handNum):
     hands = []
     #1, 2, 3, and 4 are the only accepted arguments for the number of hands
-    hands.append(Hand(HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT, int(SCREEN_WIDTH/2 - HORIZ_HAND_WIDTH/2), 625 - HORIZ_HAND_HEIGHT/2, MOCCASIN))
+    hands.append(Hand(HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT, int(SCREEN_WIDTH/2 - HORIZ_HAND_WIDTH/2), 625 - HORIZ_HAND_HEIGHT/2, color))
     if (handNum==2):
-        hands.append(Hand(HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT, int(SCREEN_WIDTH/2 - HORIZ_HAND_WIDTH/2), 75 - HORIZ_HAND_HEIGHT/2, MOCCASIN))
+        hands.append(Hand(HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT, int(SCREEN_WIDTH/2 - HORIZ_HAND_WIDTH/2), 75 - HORIZ_HAND_HEIGHT/2, color))
     elif (handNum==3):
-        hands.append(Hand(VERT_HAND_WIDTH, VERT_HAND_HEIGHT, 1100 - VERT_HAND_WIDTH/2, int(SCREEN_HEIGHT/2 - VERT_HAND_HEIGHT/2), MOCCASIN))
-        hands.append(Hand(VERT_HAND_WIDTH, VERT_HAND_HEIGHT, 100 - VERT_HAND_WIDTH/2, int(SCREEN_HEIGHT/2 - VERT_HAND_HEIGHT/2), MOCCASIN))        
+        hands.append(Hand(VERT_HAND_WIDTH, VERT_HAND_HEIGHT, 1100 - VERT_HAND_WIDTH/2, int(SCREEN_HEIGHT/2 - VERT_HAND_HEIGHT/2), color))
+        hands.append(Hand(VERT_HAND_WIDTH, VERT_HAND_HEIGHT, 100 - VERT_HAND_WIDTH/2, int(SCREEN_HEIGHT/2 - VERT_HAND_HEIGHT/2), color))        
     elif (handNum==4):
-        hands.append(Hand(VERT_HAND_WIDTH, VERT_HAND_HEIGHT, 1100 - VERT_HAND_WIDTH/2, int(SCREEN_HEIGHT/2 - VERT_HAND_HEIGHT/2), MOCCASIN))
-        hands.append(Hand(HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT, int(SCREEN_WIDTH/2 - HORIZ_HAND_WIDTH/2), 75 - HORIZ_HAND_HEIGHT/2, MOCCASIN))
-        hands.append(Hand(VERT_HAND_WIDTH, VERT_HAND_HEIGHT, 100 - VERT_HAND_WIDTH/2, int(SCREEN_HEIGHT/2 - VERT_HAND_HEIGHT/2), MOCCASIN))
+        hands.append(Hand(VERT_HAND_WIDTH, VERT_HAND_HEIGHT, 1100 - VERT_HAND_WIDTH/2, int(SCREEN_HEIGHT/2 - VERT_HAND_HEIGHT/2), color))
+        hands.append(Hand(HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT, int(SCREEN_WIDTH/2 - HORIZ_HAND_WIDTH/2), 75 - HORIZ_HAND_HEIGHT/2, color))
+        hands.append(Hand(VERT_HAND_WIDTH, VERT_HAND_HEIGHT, 100 - VERT_HAND_WIDTH/2, int(SCREEN_HEIGHT/2 - VERT_HAND_HEIGHT/2), color))
     return hands
 #initialize Deck accepting parameters for whether you want jokers and the previously created hands. In the future, determine whose turn it is? 
-def makeDeck(joker,hands):
+def makeDeck(joker,color, hands):
     deck = Deck(joker, 100 - Card.CARD_WIDTH/2, 75 - Card.CARD_HEIGHT/2)
-    deckarea = DeckArea(VERT_HAND_WIDTH,HORIZ_HAND_HEIGHT, 100 - VERT_HAND_WIDTH/2, 75 - HORIZ_HAND_HEIGHT/2, GRULLO, hands)
+    deckarea = deckArea(VERT_HAND_WIDTH,HORIZ_HAND_HEIGHT, 100 - VERT_HAND_WIDTH/2, 75 - HORIZ_HAND_HEIGHT/2, color, hands)
     deckarea.update(deck)
     return deck,deckarea
 
 #Game loop - keeps the window open 
-def runSim(numHands, joker):
+def runSim(numHands, scheme, joker):
+    scheme-=1
     clock = pygame.time.Clock()
-    middle,screen= createScreen()
-    hands= createHands(numHands)
-    deck,deckarea= makeDeck(joker, hands)
+    middle,screen= createScreen(colorSchemes[scheme][1])
+    hands= createHands(colorSchemes[scheme][2], numHands)
+    deck,deckarea= makeDeck(joker, colorSchemes[scheme][3], hands)
+    discardarea=createDiscard(colorSchemes[scheme][3])
     running = True
     while running:
         for event in pygame.event.get(): #checks the queue of events
@@ -108,12 +116,13 @@ def runSim(numHands, joker):
                     deck.undrag()
                 
                 deck.hide()
-                deckarea.update(deck)
+                deckarea.update(deck) 
                 for hand in hands:
                     hand.update(deck)
                     hand.flip()
                 middle.update(deck)
                 middle.flip()
+                discardarea.update(deck)
                 #if event.button == 2:
                     
                     
@@ -125,9 +134,10 @@ def runSim(numHands, joker):
                         card.rect.y = mouse_y + offset_y
                     
         
-        screen.fill(DARK_PUCE)
+        screen.fill(colorSchemes[scheme][0])
         screen.blit(middle.surf, (middle.x, middle.y))
         screen.blit(deckarea.surf, (deckarea.x, deckarea.y))
+        screen.blit(discardarea.surf, (discardarea.x, discardarea.y))
         for hand in hands:
             screen.blit(hand.surf, (hand.x, hand.y))
         for card in deck.List:
