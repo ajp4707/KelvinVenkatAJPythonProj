@@ -7,7 +7,8 @@ import GUIcreator
 #for testing
 
 #Color Schemes:
-#ScreenColor,MiddleColor,HandColor,Deck/DiscardColor
-#1: DARK_PUCE, ELEC_BLUE, MOCCASIN,GRULLO
+#ScreenColor,MiddleColor,HandColor,Deck, DiscardColor
+#1: DARK_PUCE, ELEC_BLUE, MOCCASIN,GRULLO, DARK_RED
 numhands, joker=4,0
-GUIcreator.runSim(numhands,1, joker)
+gui=GUIcreator.GUI(numhands,1, joker)
+gui.runSim()
