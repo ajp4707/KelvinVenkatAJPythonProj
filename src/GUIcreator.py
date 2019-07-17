@@ -6,6 +6,7 @@ from Card import *
 from Hand import *
 from Middle import *
 from deckArea import deckArea
+from discardArea import discardArea
 #Screen and Hand Constants
 SCREEN_WIDTH, SCREEN_HEIGHT= 1200, 700
 
@@ -49,7 +50,7 @@ class GUI(object):
         return middle,screen
     
     def createDiscard(self):
-        discardarea = Hand(VERT_HAND_WIDTH,HORIZ_HAND_HEIGHT, 1100 - VERT_HAND_WIDTH/2, 625 - HORIZ_HAND_HEIGHT/2, colorSchemes[self.scheme][4])
+        discardarea = discardArea(VERT_HAND_WIDTH,HORIZ_HAND_HEIGHT, 1100 - VERT_HAND_WIDTH/2, 625 - HORIZ_HAND_HEIGHT/2, colorSchemes[self.scheme][4])
         return discardarea
         #Creates middle area and hands. 
     def createHands(self, handNum):
