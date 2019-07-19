@@ -3,9 +3,9 @@ from Card import *
 from Deck import *
 
 
-class Hand(pygame.sprite.Group):
+class Area(pygame.sprite.Group):
 
-    def __init__(self, width, height, x, y, color):
+    def __init__(self, width, height, x, y, color, hidden=True):
         super().__init__()
         self.surf = pygame.Surface((width,height))
         self.surf.fill(color)
@@ -15,13 +15,13 @@ class Hand(pygame.sprite.Group):
         self.y = y
         
         #if True, cards in a hand will not be shown
-        self.hidecards = True 
+        self.hideCards = hidden
         
     def flip(self):
         for i in self:
-            i.hidden = self.hidecards
+            i.hidden = self.hideCards
     
-    #checks if any cards are inside hand. if so, card is added to hand Group.
+    #checks if any cards are inside hand. if so, Card is added to hand Group.
     def update(self, deck):
         for card in deck.List:
             if card.rect.colliderect(self.rect) and self.rect.collidepoint(card.rect.x, card.rect.y)\
