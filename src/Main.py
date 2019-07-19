@@ -13,6 +13,6 @@ import GUIcreator
 #3: MIDNIGHT_BLUE,SILVER,      LIGHT_GRAY,  GREEN,  VIOLET_RED
 #4: DARK_BLUE,    HONEYDEW,    SPRING_GREEN,BEIGE,  TEAL
 
-numhands, colorScheme joker=4,4,0
+numhands, colorScheme, joker=4,4,0
 gui=GUIcreator.GUI(numhands,colorScheme, joker)
 gui.runSim()
