@@ -3,34 +3,42 @@ import pygame
 from pygame.locals import*
 from Deck import *
 from Card import *
-from Hand import *
+from VerticalHand import verticalHand
+from HorizontalHand import horizontalHand
 from Middle import *
 from deckArea import deckArea
 from discardArea import discardArea
-#Screen and Hand Constants
+#Screen and Area Constants
 SCREEN_WIDTH, SCREEN_HEIGHT= 1200, 700
-
-MIDDLE_WIDTH, MIDDLE_HEIGHT = 800, 400
-
-HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT = 800, 133
-
-VERT_HAND_WIDTH, VERT_HAND_HEIGHT = 176, 400
 
 #Color Constants
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 RED = (255,0,0)
 DARK_RED = (232, 23, 23)
-GREEN = (0,255,0)
+LIME = (0,255,0)
 BLUE = (0,0, 255)
 DARK_PUCE = (72, 61, 63)
 ELEC_BLUE = (5, 142, 217)
 MOCCASIN = (244, 235, 217)
 GRULLO = (163, 154, 146)
+DARK_MAGENTA = (139,0,139)
+BEIGE=(245,245,220)
+LIGHT_GRAY=(119,136,153)
+GREEN=(0,128,0)
+SILVER=(192,192,192)
+DARK_BLUE=(0,0,139)
+MIDNIGHT_BLUE=(25,25,112)
+VIOLET_RED=(219,112,147)
+HONEYDEW=(240,255,240)
+TEAL=(0,128,128)
+SPRING_GREEN=(0,250,154)
 
 #Color Schemes
 colorSchemes=[[DARK_PUCE, ELEC_BLUE,MOCCASIN, GRULLO, DARK_RED],
-              [DARK_PUCE]]
+              [BLACK, MOCCASIN, GRULLO, GREEN, DARK_RED],
+              [MIDNIGHT_BLUE,SILVER,LIGHT_GRAY, GREEN, VIOLET_RED ],
+              [DARK_BLUE,HONEYDEW,SPRING_GREEN, BEIGE, TEAL]]
 
 class GUI(object):
     def __init__(self,numHands, scheme, joker):
@@ -46,32 +54,32 @@ class GUI(object):
     def createScreen(self):
         pygame.init()
         screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
-        middle = Middle(MIDDLE_WIDTH, MIDDLE_HEIGHT, SCREEN_WIDTH/2 - MIDDLE_WIDTH/2, SCREEN_HEIGHT/2 - MIDDLE_HEIGHT/2, colorSchemes[self.scheme][1] )
+        middle = Middle( colorSchemes[self.scheme][1] )
         return middle,screen
     
     def createDiscard(self):
-        discardarea = discardArea(VERT_HAND_WIDTH,HORIZ_HAND_HEIGHT, 1100 - VERT_HAND_WIDTH/2, 625 - HORIZ_HAND_HEIGHT/2, colorSchemes[self.scheme][4])
+        discardarea = discardArea(colorSchemes[self.scheme][4])
         return discardarea
         #Creates middle area and hands. 
     def createHands(self, handNum):
         hands = []
         color=colorSchemes[self.scheme][2]
         #1, 2, 3, and 4 are the only accepted arguments for the number of hands
-        hands.append(Hand(HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT, int(SCREEN_WIDTH/2 - HORIZ_HAND_WIDTH/2), 625 - HORIZ_HAND_HEIGHT/2, color))
+        hands.append(horizontalHand( color))
         if (handNum==2):
-            hands.append(Hand(HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT, int(SCREEN_WIDTH/2 - HORIZ_HAND_WIDTH/2), 75 - HORIZ_HAND_HEIGHT/2, color))
+            hands.append(horizontalHand(color,"Top"))
         elif (handNum==3):
-            hands.append(Hand(VERT_HAND_WIDTH, VERT_HAND_HEIGHT, 1100 - VERT_HAND_WIDTH/2, int(SCREEN_HEIGHT/2 - VERT_HAND_HEIGHT/2), color))
-            hands.append(Hand(VERT_HAND_WIDTH, VERT_HAND_HEIGHT, 100 - VERT_HAND_WIDTH/2, int(SCREEN_HEIGHT/2 - VERT_HAND_HEIGHT/2), color))        
+            hands.append(verticalHand(color,"Right"))
+            hands.append(verticalHand(color, "Left"))        
         elif (handNum==4):
-            hands.append(Hand(VERT_HAND_WIDTH, VERT_HAND_HEIGHT, 1100 - VERT_HAND_WIDTH/2, int(SCREEN_HEIGHT/2 - VERT_HAND_HEIGHT/2), color))
-            hands.append(Hand(HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT, int(SCREEN_WIDTH/2 - HORIZ_HAND_WIDTH/2), 75 - HORIZ_HAND_HEIGHT/2, color))
-            hands.append(Hand(VERT_HAND_WIDTH, VERT_HAND_HEIGHT, 100 - VERT_HAND_WIDTH/2, int(SCREEN_HEIGHT/2 - VERT_HAND_HEIGHT/2), color))
+            hands.append(verticalHand(color, "Right"))
+            hands.append(horizontalHand(color, "Top"))
+            hands.append(verticalHand(color, "Left"))
         return hands
     #initialize Deck accepting parameters for whether you want jokers and the previously created hands. In the future, determine whose turn it is? 
     def makeDeck(self, joker):
         deck = Deck(joker, 100 - Card.CARD_WIDTH/2, 75 - Card.CARD_HEIGHT/2)
-        deckarea = deckArea(VERT_HAND_WIDTH,HORIZ_HAND_HEIGHT, 100 - VERT_HAND_WIDTH/2, 75 - HORIZ_HAND_HEIGHT/2,colorSchemes[self.scheme][3], self.hands)
+        deckarea = deckArea(colorSchemes[self.scheme][3], self.hands)
         deckarea.update(deck)
         return deck,deckarea
     
