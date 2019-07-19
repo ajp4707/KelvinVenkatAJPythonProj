@@ -54,6 +54,7 @@ class GUI(object):
     def createScreen(self):
         pygame.init()
         screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
+        pygame.display.set_caption('Card Simulator v1')
         middle = Middle( colorSchemes[self.scheme][1] )
         return middle,screen
     
