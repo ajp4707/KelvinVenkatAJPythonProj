@@ -1,7 +1,7 @@
 from Card import*
 import random
 #I think Deck should be an abstract representation of ALL cards
-#I propose a new class called deckArea that extends Hand class, but is where all cards initially start
+#I propose a new class called deckArea that extends Area class, but is where all cards initially start
 #deckArea would inherit the Group class, which allows iteration over all Sprites (cards) in the group
 class Deck():
     def __init__(self, joker, x, y):
@@ -16,7 +16,7 @@ class Deck():
                 self.List.append(Card(val, suit, x, y))
         #Jokers have the value 0 and the suit "joker"
         if int(joker):
-            self.addJoker(1, x, y)
+            self.addJokers( x, y)
         self.shuffle()
         
         
@@ -46,5 +46,6 @@ class Deck():
         for card in self.List:
             card.dragging = False
     
-    def addJoker(self, hid, x, y):
-        self.List.append(Card(0, "Joker", hid, (x,y)))
+    def addJokers(self, x, y):
+        self.List.append(Card(14, "Red", x,y))
+        self.List.append(Card(14, "Black", x,y))
