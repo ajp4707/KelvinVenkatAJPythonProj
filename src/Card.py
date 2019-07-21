@@ -1,4 +1,3 @@
-
 import pygame
 from pygame.constants import RLEACCEL
 
@@ -30,12 +29,31 @@ class Card(pygame.sprite.Sprite):
             return self.back
         else:
             return self.image
-       
+    def getValue(self):
+        return self.value
+    def compareSuit(self):
+        if self.suit=="Diamonds":
+            num1=1
+        elif self.suit=="Clubs":
+            num1=2
+        elif self.suit=="Hearts":
+            num1=3
+        elif self.suit=="Spades":
+            num1=4
+        elif self.suit=="Red":
+            num1=5
+        else:
+            num1=6
+        return num1
+
+            
     def toggleHide(self):
         self.hidden = not self.hidden
         
     def setName(self):
-        if self.value == 1:
+        if self.value == 14:
+            self.name= "Joker"
+        elif self.value == 1:
             self.name = "A"
         elif self.value == 11:
             self.name = "J"
