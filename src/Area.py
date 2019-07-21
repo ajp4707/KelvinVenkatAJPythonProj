@@ -12,7 +12,6 @@ class Area(pygame.sprite.Group):
         self.rect.move_ip((x,y))
         self.x = x 
         self.y = y
-        
         #if True, cards in a hand will not be shown
         self.hideCards = hidden
         
@@ -21,6 +20,7 @@ class Area(pygame.sprite.Group):
             card.hidden = self.hideCards
     def display(self):
         return
+
     #checks if any cards are inside hand. if so, Card is added to hand Group.
     def update(self, deck):
         for card in deck.List:
