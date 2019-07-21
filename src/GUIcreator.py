@@ -1,8 +1,7 @@
 import sys
 import pygame
 from pygame.locals import*
-from Deck import *
-from Card import *
+from Area import *
 from VerticalHand import verticalHand
 from HorizontalHand import horizontalHand
 from Middle import *
@@ -18,17 +17,17 @@ colors={"WHITE":(255,255,255),"BLACK":(0,0,0),"RED":(255,0,0),"DARK_RED":(232,23
 "MIDNIGHT_BLUE":(25,25,112),"VIOLET_RED":(219,112,147),"HONEYDEW":(240,255,240),"TEAL":(0,128,128),"SPRING_GREEN":(0,250,154)}
 
 #Color Schemes
-colorSchemes=[[colors["DARK_PUCE"],colors["ELEC_BLUE"],colors["MOCCASIN"],colors["GRULLO"],colors["DARK_RED"]],
-              [colors["BLACK"],colors["MOCCASIN"],colors["GRULLO"],colors["GREEN"],colors["DARK_RED"]],
-              [colors["MIDNIGHT_BLUE"],colors["SILVER"],colors["LIGHT_GRAY"],colors["GREEN"],colors["VIOLET_RED"]],
-              [colors["DARK_BLUE"],colors["HONEYDEW"],colors["SPRING_GREEN"],colors["BEIGE"],colors["TEAL"]]]
+colorSchemes=[(colors["DARK_PUCE"],colors["ELEC_BLUE"],colors["MOCCASIN"],colors["GRULLO"],colors["DARK_RED"]),
+              (colors["BLACK"],colors["MOCCASIN"],colors["GRULLO"],colors["GREEN"],colors["DARK_RED"]),
+              (colors["MIDNIGHT_BLUE"],colors["SILVER"],colors["LIGHT_GRAY"],colors["GREEN"],colors["VIOLET_RED"]),
+              (colors["DARK_BLUE"],colors["HONEYDEW"],colors["SPRING_GREEN"],colors["BEIGE"],colors["TEAL"])]
 
 class GUI(object):
-    def __init__(self,numHands, scheme, joker):
+    def __init__(self,numHands, scheme, joker, params):
         self.scheme= scheme-1
         self.clock = pygame.time.Clock()
         self.middle,self.screen= self.createScreen()
-        self.hands= self.createHands(numHands)
+        self.hands= self.createHands(numHands, params)
         self.deck,self.deckarea= self.makeDeck(joker)
         self.discardarea= self.createDiscard()    
         #mouse variables
@@ -45,20 +44,20 @@ class GUI(object):
         discardarea = discardArea(colorSchemes[self.scheme][4])
         return discardarea
         #Creates middle area and hands. 
-    def createHands(self, handNum):
+    def createHands(self, handNum, params):
         hands = []
         color=colorSchemes[self.scheme][2]
         #1, 2, 3, and 4 are the only accepted arguments for the number of hands
-        hands.append(horizontalHand( color))
+        hands.append(horizontalHand( color,params[0]))
         if (handNum==2):
-            hands.append(horizontalHand(color,"Top"))
+            hands.append(horizontalHand(color, params[2],"Top"))
         elif (handNum==3):
-            hands.append(verticalHand(color,"Right"))
-            hands.append(verticalHand(color, "Left"))        
+            hands.append(verticalHand(color,params[1],"Right"))
+            hands.append(verticalHand(color, params[3],"Left"))        
         elif (handNum==4):
-            hands.append(verticalHand(color, "Right"))
-            hands.append(horizontalHand(color, "Top"))
-            hands.append(verticalHand(color, "Left"))
+            hands.append(verticalHand(color, params[1],"Right"))
+            hands.append(horizontalHand(color, params[2],"Top"))
+            hands.append(verticalHand(color, params[3],"Left"))
         return hands
     #initialize Deck accepting parameters for whether you want jokers and the previously created hands. In the future, determine whose turn it is? 
     def makeDeck(self, joker):
