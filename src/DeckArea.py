@@ -1,4 +1,5 @@
 import Area
+from Card import*
 
 HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT = 800, 133
 VERT_HAND_WIDTH, VERT_HAND_HEIGHT = 176, 400
@@ -18,3 +19,7 @@ class deckArea(Area.Area):
         for i in range(0,n*handnum):
             cardlist[i].rect.x = self.handList[i % handnum].x + 5 * i
             cardlist[i].rect.y = self.handList[i % handnum].y + 5 
+        
+    def display(self):
+        for card in self:
+            card.rect.x, card.rect.y=100 - Card.CARD_WIDTH/2, 75 - Card.CARD_HEIGHT/2
