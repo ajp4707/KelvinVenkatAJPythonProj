@@ -2,7 +2,6 @@ import pygame
 from Card import *
 from Deck import *
 
-
 class Area(pygame.sprite.Group):
 
     def __init__(self, width, height, x, y, color, hidden=True):
@@ -18,9 +17,10 @@ class Area(pygame.sprite.Group):
         self.hideCards = hidden
         
     def flip(self):
-        for i in self:
-            i.hidden = self.hideCards
-    
+        for card in self:
+            card.hidden = self.hideCards
+    def display(self):
+        return
     #checks if any cards are inside hand. if so, Card is added to hand Group.
     def update(self, deck):
         for card in deck.List:
@@ -29,3 +29,5 @@ class Area(pygame.sprite.Group):
                 self.add(card)
             else:
                 self.remove(card)
+        self.flip()
+        self.display()
