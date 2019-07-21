@@ -12,33 +12,16 @@ from discardArea import discardArea
 SCREEN_WIDTH, SCREEN_HEIGHT= 1200, 700
 
 #Color Constants
-WHITE = (255,255,255)
-BLACK = (0,0,0)
-RED = (255,0,0)
-DARK_RED = (232, 23, 23)
-LIME = (0,255,0)
-BLUE = (0,0, 255)
-DARK_PUCE = (72, 61, 63)
-ELEC_BLUE = (5, 142, 217)
-MOCCASIN = (244, 235, 217)
-GRULLO = (163, 154, 146)
-DARK_MAGENTA = (139,0,139)
-BEIGE=(245,245,220)
-LIGHT_GRAY=(119,136,153)
-GREEN=(0,128,0)
-SILVER=(192,192,192)
-DARK_BLUE=(0,0,139)
-MIDNIGHT_BLUE=(25,25,112)
-VIOLET_RED=(219,112,147)
-HONEYDEW=(240,255,240)
-TEAL=(0,128,128)
-SPRING_GREEN=(0,250,154)
+colors={"WHITE":(255,255,255),"BLACK":(0,0,0),"RED":(255,0,0),"DARK_RED":(232,23,23),"LIME":(0,255,0),"BLUE":(0,0,255),
+"DARK_PUCE":(72,61,63),"ELEC_BLUE":(5,142,217),"MOCCASIN":(244,235,217),"GRULLO":(163,154,146),"DARK_MAGENTA":(139,0,139),
+"BEIGE":(245,245,220),"LIGHT_GRAY":(119,136,153),"GREEN":(0,128,0),"SILVER":(192,192,192),"DARK_BLUE":(0,0,139),
+"MIDNIGHT_BLUE":(25,25,112),"VIOLET_RED":(219,112,147),"HONEYDEW":(240,255,240),"TEAL":(0,128,128),"SPRING_GREEN":(0,250,154)}
 
 #Color Schemes
-colorSchemes=[[DARK_PUCE, ELEC_BLUE,MOCCASIN, GRULLO, DARK_RED],
-              [BLACK, MOCCASIN, GRULLO, GREEN, DARK_RED],
-              [MIDNIGHT_BLUE,SILVER,LIGHT_GRAY, GREEN, VIOLET_RED ],
-              [DARK_BLUE,HONEYDEW,SPRING_GREEN, BEIGE, TEAL]]
+colorSchemes=[[colors["DARK_PUCE"],colors["ELEC_BLUE"],colors["MOCCASIN"],colors["GRULLO"],colors["DARK_RED"]],
+              [colors["BLACK"],colors["MOCCASIN"],colors["GRULLO"],colors["GREEN"],colors["DARK_RED"]],
+              [colors["MIDNIGHT_BLUE"],colors["SILVER"],colors["LIGHT_GRAY"],colors["GREEN"],colors["VIOLET_RED"]],
+              [colors["DARK_BLUE"],colors["HONEYDEW"],colors["SPRING_GREEN"],colors["BEIGE"],colors["TEAL"]]]
 
 class GUI(object):
     def __init__(self,numHands, scheme, joker):
@@ -94,14 +77,12 @@ class GUI(object):
             for card in self.deck.List:
                 self.screen.blit(card.getImage(), (card.rect.x, card.rect.y))
                 
-    def updateHands(self):
+    def updateAreas(self):
         self.deck.hide()
         self.deckarea.update(self.deck) 
         for hand in self.hands:
             hand.update(self.deck)
-            hand.flip()
         self.middle.update(self.deck)
-        self.middle.flip()
         self.discardarea.update(self.deck)
     #Game loop - keeps the window open 
     def runSim(self):
@@ -113,7 +94,6 @@ class GUI(object):
                         running = False
                     elif event.key == K_SPACE:
                         self.deckarea.deal(7)
-                        print("check space")
                 elif event.type == QUIT:
                     running = False
                 
@@ -141,7 +121,7 @@ class GUI(object):
                         self.deck.undrag()
                     elif event.button == 1:
                         self.deck.undrag()
-                    self.updateHands()
+                    self.updateAreas()
                     #if event.button == 2:
                         
                         
