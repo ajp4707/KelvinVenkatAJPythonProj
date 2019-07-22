@@ -50,6 +50,7 @@ class Menu(object):
         self.titleFont = pygame.font.Font('freesansbold.ttf', 80)
         self.buttonFont = pygame.font.Font('freesansbold.ttf', 20)
         self.optionFont = pygame.font.Font('freesansbold.ttf', 30)
+        pygame.display.set_caption('Python Card Simulator v4')
 
     #Declaring Objects (buttons)
     joker = Toggle(800, 275, 200, 50, ["No", "Yes"])
