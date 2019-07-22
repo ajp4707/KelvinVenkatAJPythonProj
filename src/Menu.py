@@ -139,7 +139,7 @@ class Menu(object):
 
 
 
-c = Menu()
-c.runMenu(c.listA)
+#c = Menu()
+#c.runMenu(c.listA)
 
 
