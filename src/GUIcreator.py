@@ -5,7 +5,7 @@ from Area import *
 from VerticalHand import verticalHand
 from HorizontalHand import horizontalHand
 from Middle import *
-from deckArea import deckArea
+from DeckArea import deckArea
 from discardArea import discardArea
 from pygame.constants import K_s
 #Screen and Area Constants
