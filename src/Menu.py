@@ -1,4 +1,5 @@
-#Venkat - citing code from pythonprogramming.net
+# code learned from pythonprogramming.net pygame tutorials
+# @author Venkat Pamulapati
 import sys
 import pygame
 from pygame.locals import*
