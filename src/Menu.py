@@ -34,6 +34,7 @@ VIOLET_RED=(219,112,147)
 HONEYDEW=(240,255,240)
 TEAL=(0,128,128)
 SPRING_GREEN=(0,250,154)
+labelFont = BLACK
 
 #Color Schemes
 colorSchemes=[[DARK_PUCE, ELEC_BLUE,MOCCASIN, GRULLO, DARK_RED],
@@ -51,27 +52,34 @@ class Menu(object):
         # initializes pygame module and window
         pygame.init()
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
-        self.largeText = pygame.font.Font('freesansbold.ttf', 80)
-        self.smallText = pygame.font.Font('freesansbold.ttf', 20)
+        self.titleFont = pygame.font.Font('freesansbold.ttf', 80)
+        self.buttonFont = pygame.font.Font('freesansbold.ttf', 20)
+        self.optionFont = pygame.font.Font('freesansbold.ttf', 30)
 
-    toggle1 = Toggle(800, 200, 100, 50, ["No", "Yes", "Maybe", "HECK YES"])
-    toggle2 = Toggle(800, 400, 100, 50, ["Yikes", "Yes", "qwerty"])
-    toggle3 = Toggle(800, 600, 100, 50, ["Whoops", "Yes", "test"])
-    listA = [toggle1, toggle2, toggle3]
 
-    def text_objects(self, text, font):
-        self.textSurface = font.render(text, True, (0, 0, 0))
+
+    #Declaring Objects (buttons)
+    joker = Toggle(800, 275, 200, 50, ["No", "Yes"])
+    numHands = Toggle(800, 350, 200, 50, ["One", "Two", "Three", "Four"])
+    colorScheme = Toggle(800, 425, 200, 50, ["Dark Puce", "Black", "Midnight Blue", "Dark Blue"])
+    sortHands = Toggle(800, 500, 200, 50, ["Value", "Suit"])
+    scend = Toggle(800, 575, 200, 50, ["Ascending", "Descending"])
+
+    listA = [joker, numHands, colorScheme, sortHands, scend]
+
+    def text_objects(self, text, font, color):
+        self.textSurface = font.render(text, True, color)
         return self.textSurface, self.textSurface.get_rect()
 
-    def dispText(self, msg, x, y, w, h):
-        self.TextSurf, self.TextRect = self.text_objects(msg, self.smallText)
+    def dispText(self, msg, x, y, w, h, font, color):
+        self.TextSurf, self.TextRect = self.text_objects(msg, font, color)
         self.TextRect.center = ((x + (w / 2)), (y + (h / 2)))
         self.screen.blit(self.TextSurf, self.TextRect)
 
     def drawButton(self, toggle):
         mouse = pygame.mouse.get_pos()
         if toggle.x < mouse[0] < toggle.x + toggle.w and toggle.y < mouse[1] < toggle.y + toggle.h or toggle.attr % len(toggle.mod) != 0:  # checks if mouse is over button, then changes color to active color
-            pygame.draw.rect(self.screen, SILVER, (toggle.x, toggle.y, toggle.w, toggle.h))
+            pygame.draw.rect(self.screen, ELEC_BLUE, (toggle.x, toggle.y, toggle.w, toggle.h))
             msg = toggle.mod[toggle.attr%(len(toggle.mod))]
             #self.toggle1.mod[self.toggle1.attr % 2]
 
@@ -80,14 +88,20 @@ class Menu(object):
             msg = toggle.mod[0]
 
 
-        self.dispText(msg, toggle.x, toggle.y, toggle.w, toggle.h)
+        self.dispText(msg, toggle.x, toggle.y, toggle.w, toggle.h, self.buttonFont, BLACK)
 
     def runMenu(self, list):
         running = True
         clock = pygame.time.Clock()
         while running:
             #print("in loop")
-            self.screen.fill(BEIGE)
+            self.screen.fill(MOCCASIN)
+            self.dispText("Python Card Sim v4.0", 200, 100, 800, 100, self.titleFont, labelFont)
+            self.dispText("Include Joker", 25, 275, 600, 50, self.optionFont, labelFont)
+            self.dispText("Number of Players", 25, 350, 600, 50, self.optionFont, labelFont)
+            self.dispText("Choose your theme", 25, 425, 600, 50, self.optionFont, labelFont)
+            self.dispText("Sort hands by", 25, 500, 600, 50, self.optionFont, labelFont)
+            self.dispText("Sort order", 25, 575, 600, 50, self.optionFont, labelFont)
             for event in pygame.event.get():  # checks the queue of events
                 print(event)
                 if event.type == KEYDOWN:  # we can add many more commands here if we want
@@ -103,11 +117,11 @@ class Menu(object):
                 self.drawButton(list[i])
             #self.drawButton(self.toggle1)
             #print(self.toggle1.attr)
-            print(self.toggle1.mod[self.toggle1.attr%2])
+             #print(self.toggle1.mod[self.toggle1.attr%2])
             #self.dispText("Do you want jokers", 200, 125, 200, 200)
             pygame.display.flip()
 
-            clock.tick(30)
+            clock.tick(60)
 
 
 
@@ -115,84 +129,3 @@ c = Menu()
 c.runMenu(c.listA)
 
 
-"""class Menu(object):
-    def __init__(self):
-        # Screen and Hand Constants
-        self.SCREEN_WIDTH = 1200
-        self.SCREEN_HEIGHT = 700
-        self.bool = False
-
-        # initializes pygame module and window
-        pygame.init()
-        self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
-        self.largeText = pygame.font.Font('freesansbold.ttf', 80)
-        self.smallText = pygame.font.Font('freesansbold.ttf', 20)
-        #self.TextSurf, self.TextRect = self.text_objects("Welcome to Card Simulator", self.largeText)
-
-    #this is a little messy right now, I'll have to clean up how text works
-    def text_objects(self, text, font):
-        self.textSurface = font.render(text, True, (0,0,0))
-        return self.textSurface, self.textSurface.get_rect()
-
-    def dispText(self,msg,x,y,w,h):
-        self.TextSurf, self.TextRect = self.text_objects(msg, self.smallText)
-        self.TextRect.center = ((x + (w / 2)), (y + (h / 2)))
-        self.screen.blit(self.TextSurf, self.TextRect)
-
-    def tester(self):
-        self.dispText("qwertuip", 200, 400, 200, 200)
-        self.bool = True
-
-    #easily creates buttons
-    def button(self, x, y, w, h, ic, ac, im, am, func):
-        mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
-        if x < mouse[0] < x+w and y < mouse[1] < y+h:  #checks if mouse is over button, then changes color to active color
-            pygame.draw.rect(self.screen, ac, (x,y,w,h))
-            msg = am
-            if click[0] == 1:
-                func()
-
-        else:
-            pygame.draw.rect(self.screen, ic, (x,y,w,h)) #draws default button parameters
-            msg = im
-        self.dispText(msg, x, y, w, h)
-
-
-    #draws the buttons to the menu
-    def drawButtons(self):
-        self.button(800, 200, 100, 50, RED, GREEN, "No", "Yes", self.tester )
-        self.button(800, 300, 100, 50, RED, GREEN, "inactive", "active", self.tester )
-
-
-    #runs the menu
-    def runMenu(self):
-        running = True
-        while running:
-            clock = pygame.time.Clock()
-            self.screen.fill(BEIGE)
-            for event in pygame.event.get():  # checks the queue of events
-                print(event)
-                if event.type == KEYDOWN:  # we can add many more commands here if we want
-                    if event.key == K_ESCAPE:
-                        running = False
-
-
-
-
-
-            #self.screen.blit(self.TextSurf, self.TextRect)
-
-            #pygame.draw.rect(screen, (0,255,0), (200, 450, 100, 50))
-            self.drawButtons()
-            self.dispText("Do you want jokers", 200, 125, 200, 200)
-            pygame.display.flip()
-
-
-            clock.tick(30)
-        print(self.bool)
-
-
-a = Menu()
-a.runMenu()
-"""
