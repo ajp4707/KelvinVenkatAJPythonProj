@@ -1,4 +1,4 @@
-'''     /
+'''
 Created on Jul 18, 2019
 
 @author: Kel N
@@ -17,16 +17,19 @@ class verticalHand(Area):
             self.handx=1100
         super().__init__(VERT_HAND_WIDTH, VERT_HAND_HEIGHT, self.handx - VERT_HAND_WIDTH/2, 
                          int(SCREEN_HEIGHT/2 - VERT_HAND_HEIGHT/2), color, False)
-        self.sortParam=param
-
+        if param[0]==0:
+            self.sortParam="Value"
+        else:
+            self.sortParam="Suit"
+        self.sortOrder=param[1]
 #https://docs.python.org/3/howto/sorting.html- Refreshed on how to sort with lambda functions
     def display(self):
-        if self.sortParam == "Suit":
-            temp=sorted(self,key=Card.getValue)
+        if self.sortParam== "Suit":
+            temp=sorted(self,key=Card.getValue, reverse=self.sortOrder)
             newOrder=sorted(temp,key=Card.compareSuit)
         else:
             temp=sorted(self,key=Card.compareSuit)
-            newOrder=sorted(temp,key=Card.getValue)
+            newOrder=sorted(temp,key=Card.getValue, reverse=self.sortOrder)
         size=len(newOrder)
         if size !=0:
             step=250/size
