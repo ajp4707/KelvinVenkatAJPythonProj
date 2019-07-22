@@ -30,14 +30,14 @@ The basic instructions are included in teh features above.
 
 The breakdown:
 1. AJ
-  1.Created the GUI and created a very well developed prototype
+  1. Created the GUI and created a very well developed prototype
 2. Kelvin
-  1.Refined and improved code
-  2.integrated seperate classes together
-  3.created discard pile
+  1. Refined and improved code
+  2. integrated seperate classes together
+  3. created discard pile
 3. Venkat-
-  1.created the menu
-  2.helped integrate menu with main
+  1. created the menu
+  2. helped integrate menu with main
 
 
 
