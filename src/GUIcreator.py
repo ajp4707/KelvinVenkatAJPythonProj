@@ -84,7 +84,7 @@ class GUI(object):
             hand.update(self.deck)
         self.middle.update(self.deck)
         self.discardarea.update(self.deck)
-    #Game loop - keeps the window open 
+    #Game loop - keeps the window open
     def runSim(self):
         running = True
         while running:
@@ -128,6 +128,8 @@ class GUI(object):
                     running = False
                 
                 #MOUSEBUTTONDOWN 3 is a right click, drags all of the cards. button 1 is a left click, drags one Card
+                #Logic and some code to drag and drop cards came from this website
+                #https://stackoverflow.com/questions/41332861/click-and-drag-a-rectangle-with-pygame
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 3:                   
                         for card in self.deck.List:
