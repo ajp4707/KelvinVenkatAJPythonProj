@@ -54,10 +54,10 @@ class Menu(object):
         self.largeText = pygame.font.Font('freesansbold.ttf', 80)
         self.smallText = pygame.font.Font('freesansbold.ttf', 20)
 
-    toggle1 = Toggle(800, 200, 100, 50, "No", "Yes", 2)
-    toggle2 = Toggle(800, 400, 100, 50, "No", "Yes", 4)
-    toggle3 = Toggle(800, 600, 100, 50, "No", "Yes", 4)
-    listA= [toggle1, toggle2, toggle3]
+    toggle1 = Toggle(800, 200, 100, 50, ["No", "Yes", "Maybe", "HECK YES"])
+    toggle2 = Toggle(800, 400, 100, 50, ["Yikes", "Yes", "qwerty"])
+    toggle3 = Toggle(800, 600, 100, 50, ["Whoops", "Yes", "test"])
+    listA = [toggle1, toggle2, toggle3]
 
     def text_objects(self, text, font):
         self.textSurface = font.render(text, True, (0, 0, 0))
@@ -70,13 +70,14 @@ class Menu(object):
 
     def drawButton(self, toggle):
         mouse = pygame.mouse.get_pos()
-        if toggle.x < mouse[0] < toggle.x + toggle.w and toggle.y < mouse[1] < toggle.y + toggle.h or toggle.attr % toggle.mod == 1:  # checks if mouse is over button, then changes color to active color
-            pygame.draw.rect(self.screen, toggle.ac, (toggle.x, toggle.y, toggle.w, toggle.h))
-            msg = toggle.am
+        if toggle.x < mouse[0] < toggle.x + toggle.w and toggle.y < mouse[1] < toggle.y + toggle.h or toggle.attr % len(toggle.mod) != 0:  # checks if mouse is over button, then changes color to active color
+            pygame.draw.rect(self.screen, SILVER, (toggle.x, toggle.y, toggle.w, toggle.h))
+            msg = toggle.mod[toggle.attr%(len(toggle.mod))]
+            #self.toggle1.mod[self.toggle1.attr % 2]
 
         else:
-            pygame.draw.rect(self.screen, toggle.ic, (toggle.x, toggle.y, toggle.w, toggle.h))  # draws default button parameters
-            msg = toggle.im
+            pygame.draw.rect(self.screen, SILVER, (toggle.x, toggle.y, toggle.w, toggle.h))  # draws default button parameters
+            msg = toggle.mod[0]
 
 
         self.dispText(msg, toggle.x, toggle.y, toggle.w, toggle.h)
@@ -100,8 +101,9 @@ class Menu(object):
             #print("end loop")
             for i in range(len(list)):
                 self.drawButton(list[i])
-            self.drawButton(self.toggle1)
-            print(self.toggle1.attr)
+            #self.drawButton(self.toggle1)
+            #print(self.toggle1.attr)
+            print(self.toggle1.mod[self.toggle1.attr%2])
             #self.dispText("Do you want jokers", 200, 125, 200, 200)
             pygame.display.flip()
 
