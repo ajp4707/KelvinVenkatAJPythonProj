@@ -1,4 +1,4 @@
-# Python-Proj
+# KelvinVenkatAJPythonProj
 For Kelvin, Venkat, and AJ
 Welcome to Python Card Simulator v4.0
 This is an advanced card simulator that allows users to drag and drop cards around a table, and have the cards interact with different predefined areas.
