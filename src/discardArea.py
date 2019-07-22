@@ -1,6 +1,4 @@
 import pygame
-# from Card import *
-# from Deck import *
 from Area import *
 
 HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT = 800, 133
