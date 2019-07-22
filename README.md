@@ -16,6 +16,7 @@ It comes with some pretty nifty features including:
 8. sweet start up menu
 9. A beautiful, easy to use UI
 10. Readable code
+11. Turn based play (use numrows)
 
 This program was built on Windows using python 3.7 and pygame 1.9.1.
 
