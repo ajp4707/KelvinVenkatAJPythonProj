@@ -17,16 +17,21 @@ class horizontalHand(Area):
             self.handy=625
         super().__init__(HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT, int(SCREEN_WIDTH/2 - HORIZ_HAND_WIDTH/2),
                           self.handy - HORIZ_HAND_HEIGHT/2, color,False)
-        self.sortParam=param
+        if param[0]==0:
+            self.sortParam="Value"
+        else:
+            self.sortParam="Suit"
+        #A zero indicates ascending order while a one indicates descending order
+        self.sortOrder=param[1]
     
 #https://docs.python.org/3/howto/sorting.html- Refreshed on how to sort with key functions
     def display(self):
-        if self.sortParam[0] == "Suit":
-            temp=sorted(self,key=Card.getValue, reverse=self.sortParam[1])
+        if self.sortParam== "Suit":
+            temp=sorted(self,key=Card.getValue, reverse=self.sortOrder)
             newOrder=sorted(temp,key=Card.compareSuit)
         else:
             temp=sorted(self,key=Card.compareSuit)
-            newOrder=sorted(temp,key=Card.getValue, reverse=self.sortParam[1])
+            newOrder=sorted(temp,key=Card.getValue, reverse=self.sortOrder)
         size=len(newOrder)
         if size !=0:
             step=660/size
