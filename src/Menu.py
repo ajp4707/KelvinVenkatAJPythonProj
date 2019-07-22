@@ -114,13 +114,15 @@ class Menu(object):
                         for i in list:
                             if i.x < event.pos[0] < i.x + i.w and i.y < event.pos[1] < i.y + i.h:
                                 i.attr += 1
+                elif event.type == QUIT:
+                    running = False
 
             for i in range(len(list)):
                 self.drawButton(list[i])
 
             #checks if begin was selected, then closes gui and returns values
             if list[5].attr > 0:
-                pygame.close()
+                pygame.quit()
                 returnList = []
                 returnList.append(list[0].attr)
                 returnList.append(list[1].attr)
@@ -139,7 +141,7 @@ class Menu(object):
 
 
 
-#c = Menu()
-#c.runMenu(c.listA)
+c = Menu()
+c.runMenu(c.listA)
 
 
