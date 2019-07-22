@@ -5,16 +5,16 @@ This is an advanced card simulator that allows users to drag and drop cards arou
 hands and in a trash pile.
 
 It comes with some pretty nifty features including:
---Spacebar to auto deal
---Double click to spread hands
---Right click to select multiple cards at a time
---Esc to quit
---many themes to choose from
---variable number of players
---toggle for jokers
---A sweet start up menu
---A beautiful, easy to use UI
---Readable code
+1. Spacebar to auto deal
+2. Double click to spread hands
+3. Right click to select multiple cards at a time
+4. Esc to quit
+5. many themes to choose from
+6. variable number of players
+7. toggle for jokers
+8. sweet start up menu
+9. A beautiful, easy to use UI
+10. Readable code
 
 This program was built on Windows using python 3.7 and pygame 1.9.1.
 
