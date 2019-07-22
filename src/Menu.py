@@ -124,11 +124,11 @@ class Menu(object):
             if list[5].attr > 0:
                 pygame.quit()
                 returnList = []
-                returnList.append(list[0].attr)
-                returnList.append(list[1].attr)
-                returnList.append(list[2].attr)
-                returnList.append(list[3].attr)
-                returnList.append(list[4].attr)
+                returnList.append(list[0].attr%len(list[0].mod))
+                returnList.append(list[1].attr%len(list[1].mod))
+                returnList.append(list[2].attr%len(list[2].mod))
+                returnList.append(list[3].attr%len(list[3].mod))
+                returnList.append(list[4].attr%len(list[4].mod))
                 return returnList
 
             #self.drawButton(self.toggle1)
