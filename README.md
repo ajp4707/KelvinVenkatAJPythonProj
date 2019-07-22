@@ -4,6 +4,7 @@ Welcome to Pyhton Card Simulator v4.0
 This is an advanced card simulator that allows users to drag and drop cards around a table, and have the cards interact with different predefined areas.
 
 --FEATURES--
+
 It comes with some pretty nifty features including:
 1. Spacebar to auto deal
 2. Double click to spread hands
@@ -19,6 +20,7 @@ It comes with some pretty nifty features including:
 This program was built on Windows using python 3.7 and pygame 1.9.1.
 
 --REQUIREMENTS--
+
 In order to compile this you will need to isntall pyGame, and already have the latest verion of python3 installed.
 
 1. Go to Command Prompt on windows by typing win+r, then "cmd", enter
