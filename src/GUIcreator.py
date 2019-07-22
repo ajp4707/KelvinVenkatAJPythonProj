@@ -7,6 +7,7 @@ from HorizontalHand import horizontalHand
 from Middle import *
 from deckArea import deckArea
 from discardArea import discardArea
+from pygame.constants import K_s
 #Screen and Area Constants
 SCREEN_WIDTH, SCREEN_HEIGHT= 1200, 700
 
@@ -93,6 +94,7 @@ class GUI(object):
                         running = False
                     elif event.key == K_SPACE:
                         self.deckarea.deal(7)
+                        self.updateAreas()
                     elif event.key == K_1:
                         for hand in self.hands:
                             hand.hideCards = True
@@ -117,7 +119,11 @@ class GUI(object):
                         self.hands[3%len(self.hands)].hideCards = False
                         for hand in self.hands:
                             hand.update(self.deck)
-                        
+                    elif event.key == K_s:
+                        for card in self.deck.List:
+                            card.rect.x, card.rect.y=100 - Card.CARD_WIDTH/2, 75 - Card.CARD_HEIGHT/2
+                        self.deck.shuffle()
+                        self.updateAreas()
                 elif event.type == QUIT:
                     running = False
                 
@@ -146,8 +152,7 @@ class GUI(object):
                     elif event.button == 1:
                         self.deck.undrag()
                     self.updateAreas()
-                    #if event.button == 2:
-                        
+                    #if event.button == 2:            
                         
                 elif event.type == pygame.MOUSEMOTION:
                     for card in self.deck.List:
@@ -155,7 +160,6 @@ class GUI(object):
                             mouse_x, mouse_y = event.pos
                             card.rect.x = mouse_x + offset_x
                             card.rect.y = mouse_y + offset_y
-                        
             
             self.blitScreen()
             pygame.display.flip() 
