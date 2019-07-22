@@ -95,9 +95,9 @@ class Menu(object):
                         running = False
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:
-                        for i in range(len(list)):
-                            if list[0].x < event.pos[0] < list[0].x + list[0].w and list[0].y < event.pos[1] < list[0].y + list[0].h:
-                                self.toggle1.attr += 1
+                        for i in list:
+                            if i.x < event.pos[0] < i.x + i.w and i.y < event.pos[1] < i.y + i.h:
+                                i.attr += 1
             #print("end loop")
             for i in range(len(list)):
                 self.drawButton(list[i])
