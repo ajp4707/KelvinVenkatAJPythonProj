@@ -36,7 +36,7 @@ class GUI(object):
     def createScreen(self):
         pygame.init()
         screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
-        pygame.display.set_caption('Card Simulator v1')
+        pygame.display.set_caption('Python Card Simulator v4    Spacebar: Deal Cards     Keys 1-4: Player 1-4\'s Turn')
         middle = Middle( colorSchemes[self.scheme][1] )
         return middle,screen
     
@@ -48,16 +48,16 @@ class GUI(object):
         hands = []
         color=colorSchemes[self.scheme][2]
         #1, 2, 3, and 4 are the only accepted arguments for the number of hands
-        hands.append(horizontalHand( color,params[0]))
+        hands.append(horizontalHand( color,params))
         if (handNum==2):
-            hands.append(horizontalHand(color, params[2],"Top"))
+            hands.append(horizontalHand(color, params,"Top"))
         elif (handNum==3):
-            hands.append(verticalHand(color,params[1],"Right"))
-            hands.append(verticalHand(color, params[3],"Left"))        
+            hands.append(verticalHand(color,params,"Right"))
+            hands.append(verticalHand(color, params,"Left"))        
         elif (handNum==4):
-            hands.append(verticalHand(color, params[1],"Right"))
-            hands.append(horizontalHand(color, params[2],"Top"))
-            hands.append(verticalHand(color, params[3],"Left"))
+            hands.append(verticalHand(color, params,"Right"))
+            hands.append(horizontalHand(color, params,"Top"))
+            hands.append(verticalHand(color, params,"Left"))
         return hands
     #initialize Deck accepting parameters for whether you want jokers and the previously created hands. In the future, determine whose turn it is? 
     def makeDeck(self, joker):
@@ -93,6 +93,31 @@ class GUI(object):
                         running = False
                     elif event.key == K_SPACE:
                         self.deckarea.deal(7)
+                    elif event.key == K_1:
+                        for hand in self.hands:
+                            hand.hideCards = True
+                        self.hands[0].hideCards = False
+                        for hand in self.hands:
+                            hand.update(self.deck)
+                    elif event.key == K_2:
+                        for hand in self.hands:
+                            hand.hideCards = True
+                        self.hands[1%len(self.hands)].hideCards = False
+                        for hand in self.hands:
+                            hand.update(self.deck)
+                    elif event.key == K_3:
+                        for hand in self.hands:
+                            hand.hideCards = True
+                        self.hands[2%len(self.hands)].hideCards = False
+                        for hand in self.hands:
+                            hand.update(self.deck)
+                    elif event.key == K_4:
+                        for hand in self.hands:
+                            hand.hideCards = True
+                        self.hands[3%len(self.hands)].hideCards = False
+                        for hand in self.hands:
+                            hand.update(self.deck)
+                        
                 elif event.type == QUIT:
                     running = False
                 
