@@ -29,13 +29,13 @@ In order to compile this you will need to isntall pyGame, and already have the l
 The basic instructions are included in teh features above.
 
 The breakdown:
-AJ
+1. AJ
   1.Created the GUI and created a very well developed prototype
-Kelvin
+. Kelvin
   1.Refined and improved code
   2.integrated seperate classes together
   3.created discard pile
-Venkat-
+. Venkat-
   1.created the menu
   2.helped integrate menu with main
 
