@@ -17,7 +17,7 @@ menu = Menu()
 params = menu.runMenu(menu.listA)
 print(params)
 joker = params[0]
-numhands = params[1]
+numhands = params[1]+1
 colorScheme = params[2]
 sortHands = params[3]
 sortOrder = params[4]
