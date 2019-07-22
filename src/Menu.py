@@ -106,7 +106,6 @@ class Menu(object):
             self.drawLabels()
 
             for event in pygame.event.get():  # checks the queue of events
-                print(event)
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         running = False
