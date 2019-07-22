@@ -37,7 +37,7 @@ class GUI(object):
     def createScreen(self):
         pygame.init()
         screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
-        pygame.display.set_caption('Python Card Simulator v4    Spacebar: Deal Cards     Keys 1-4: Player 1-4\'s Turn')
+        pygame.display.set_caption('Python Card Simulator v4    "Spacebar": Deal Cards     Keys "1-4": Player 1-4\'s Turn    Key "s": Reshuffle')
         middle = Middle( colorSchemes[self.scheme][1] )
         return middle,screen
     
@@ -152,14 +152,14 @@ class GUI(object):
                     elif event.button == 1:
                         self.deck.undrag()
                     self.updateAreas()
-                    #if event.button == 2:            
+                    #if event.button == 2:                       
                         
                 elif event.type == pygame.MOUSEMOTION:
                     for card in self.deck.List:
                         if card.dragging:
                             mouse_x, mouse_y = event.pos
                             card.rect.x = mouse_x + offset_x
-                            card.rect.y = mouse_y + offset_y
+                            card.rect.y = mouse_y + offset_y                        
             
             self.blitScreen()
             pygame.display.flip() 
