@@ -4,31 +4,10 @@ import sys
 import pygame
 from pygame.locals import*
 from Toggle import *
-
+from constants import Color
 # colors and list form GUI creator
 # Color Constants
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-DARK_RED = (232, 23, 23)
-LIME = (0, 255, 0)
-BLUE = (0, 0, 255)
-DARK_PUCE = (72, 61, 63)
-ELEC_BLUE = (5, 142, 217)
-MOCCASIN = (244, 235, 217)
-GRULLO = (163, 154, 146)
-DARK_MAGENTA = (139, 0, 139)
-BEIGE = (245, 245, 220)
-LIGHT_GRAY = (119, 136, 153)
-GREEN = (0, 128, 0)
-SILVER = (192, 192, 192)
-DARK_BLUE = (0, 0, 139)
-MIDNIGHT_BLUE = (25, 25, 112)
-VIOLET_RED = (219, 112, 147)
-HONEYDEW = (240, 255, 240)
-TEAL = (0, 128, 128)
-SPRING_GREEN = (0, 250, 154)
-labelFont = BLACK
+labelFont = Color.BLACK
 
 
 class Menu(object):
@@ -73,18 +52,19 @@ class Menu(object):
         self.disp_text("Sort hands by", 25, 500, 600, 50, self.optionFont, labelFont)
         self.disp_text("Sort order", 25, 575, 600, 50, self.optionFont, labelFont)
 
-    # draws buttons
+    # draws buttons TODO overhaul buttons
     def draw_button(self, toggle):
         mouse = pygame.mouse.get_pos()
         # toggles options
         if toggle.x < mouse[0] < toggle.x + toggle.w and toggle.y < mouse[1] < toggle.y + toggle.h or toggle.attr % len(toggle.mod) != 0:  # checks if mouse is over button, then changes color to active color
-            pygame.draw.rect(self.screen, ELEC_BLUE, (toggle.x, toggle.y, toggle.w, toggle.h))
-            msg = toggle.mod[toggle.attr%(len(toggle.mod))]
+            pygame.draw.rect(self.screen, Color.ELEC_BLUE, (toggle.x, toggle.y, toggle.w, toggle.h))
+            msg = toggle.mod[toggle.attr % (len(toggle.mod))]
         # default option
         else:
-            pygame.draw.rect(self.screen, SILVER, (toggle.x, toggle.y, toggle.w, toggle.h))  # draws default button parameters
+            # draws default button parameters
+            pygame.draw.rect(self.screen, Color.SILVER, (toggle.x, toggle.y, toggle.w, toggle.h))
             msg = toggle.mod[0]
-        self.disp_text(msg, toggle.x, toggle.y, toggle.w, toggle.h, self.buttonFont, BLACK)
+        self.disp_text(msg, toggle.x, toggle.y, toggle.w, toggle.h, self.buttonFont, Color.BLACK)
 
     # runs game loop and menu
     def run_menu(self, list):
@@ -92,12 +72,12 @@ class Menu(object):
         clock = pygame.time.Clock()
 
         while running:
-            self.screen.fill(MOCCASIN)
+            self.screen.fill(Color.MOCCASIN)
             self.draw_labels()
             for event in pygame.event.get():  # checks the queue of events
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
-                        running = False
+                        running = False  # TODO return?
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:
                         for i in list:
@@ -110,7 +90,7 @@ class Menu(object):
             # checks if begin was selected, then closes gui and returns values
             if list[5].attr > 0:
                 pygame.quit()
-                returnList = []
+                returnList = []  # TODO convert to dictionary with keys
                 returnList.append(list[0].attr % len(list[0].mod))
                 returnList.append(list[1].attr % len(list[1].mod))
                 returnList.append(list[2].attr % len(list[2].mod))

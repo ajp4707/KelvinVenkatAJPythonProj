@@ -4,7 +4,7 @@ import pygame
 from pygame.locals import*
 
 
-class Toggle:
+class Toggle:  # TODO Overhaul & abstract here
     def __init__(self, x, y, w, h, mod):
         self.mod = mod
         self.attr = 0
@@ -12,4 +12,4 @@ class Toggle:
         self.y = y
         self.w = w
         self.h = h
-        self.state = mod[self.attr%2]
+        self.state = mod[self.attr % 2]

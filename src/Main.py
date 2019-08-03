@@ -20,6 +20,7 @@ num_hands = params[1] + 1
 colorScheme = params[2]
 sortHands = params[3]
 sortOrder = params[4]
+
 # SortParams denotes whether how you want to sort each hand.
 # The first hand is the bottom hand and the other numbers are given in a counter-clockwise rotations
 gui = GUIcreator.GUI(num_hands, colorScheme, joker, (sortHands, sortOrder))
