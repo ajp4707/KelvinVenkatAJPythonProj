@@ -43,3 +43,5 @@ class Schemes:
             return cls.MIDNIGHT_BLUE
         elif scheme == 'Dark Blue':
             return cls.DARK_BLUE
+        else:
+            raise KeyError('Did not receive proper scheme:', scheme)

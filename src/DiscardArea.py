@@ -17,4 +17,4 @@ class DiscardArea(Area):
     
     def display(self):
         for card in self:
-            card.rect.x, card.rect.y = 1100 - Card.CARD_WIDTH/2, 625 - Card.CARD_HEIGHT/2
+            card.rect.x, card.rect.y = 1100 - Card.width / 2, 625 - Card.height / 2

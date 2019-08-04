@@ -28,4 +28,4 @@ class DeckArea(Area):
         
     def display(self):
         for card in self:
-            card.rect.x, card.rect.y=100 - Card.CARD_WIDTH/2, 75 - Card.CARD_HEIGHT/2 
+            card.rect.x, card.rect.y= 100 - Card.width / 2, 75 - Card.height / 2

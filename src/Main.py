@@ -14,14 +14,9 @@ from Menu import *
 
 # Joker denotes whether Jokes are present or not
 menu = Menu()
-params = menu.run_menu(menu.listA)
-joker = params[0]
-num_hands = params[1] + 1
-colorScheme = params[2]
-sortHands = params[3]
-sortOrder = params[4]
+params = menu.run_menu()
 
 # SortParams denotes whether how you want to sort each hand.
 # The first hand is the bottom hand and the other numbers are given in a counter-clockwise rotations
-gui = GUIcreator.GUI(num_hands, colorScheme, joker, (sortHands, sortOrder))
+gui = GUIcreator.GUI(params)
 gui.run_sim()
