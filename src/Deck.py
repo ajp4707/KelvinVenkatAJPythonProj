@@ -1,5 +1,5 @@
 from Card import *
-import random
+from random import shuffle
 
 
 # I think Deck should be an abstract representation of ALL cards
@@ -22,16 +22,13 @@ class Deck:
             self.add_jokers(x, y)
         self.shuffle()
 
-    # Shuffles the deck regardless of size
     def shuffle(self):
-        size = len(self.cards)
-        for i in range(0, 500):
-            idx = random.randint(1, size - 1)
-            self.cards.append(self.cards.pop(idx))
+        shuffle(self.cards)
 
     def hide(self):
+        """Turns all cards in the deck face-down."""
         for card in self.cards:
-            card.hidden = 1
+            card.hidden = True
 
     # NEEDS WORK. Move selected cards.rect to specific hand locations.
     # Perhaps even stagger cards so you can see them all

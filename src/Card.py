@@ -10,7 +10,7 @@ class Card(pygame.sprite.Sprite):
     def __init__(self, val, suit, x, y):
         super(Card, self).__init__()
         
-        self.value = int(val)
+        self.value = val
         self.name = Card.set_name(self.value)
         self.suit = suit
         self.hidden = True
@@ -47,26 +47,15 @@ class Card(pygame.sprite.Sprite):
             'Clubs': 1
         }
         return suits[self.suit]
-        # if self.suit == "Diamonds":
-        #     num1 = 1
-        # elif self.suit == "Clubs":
-        #     num1 = 2
-        # elif self.suit == "Hearts":
-        #     num1 = 3
-        # elif self.suit == "Spades":
-        #     num1 = 4
-        # elif self.suit == "Red":
-        #     num1 = 5
-        # else:  # If black card
-        #     num1 = 6
-        # return num1
-            
-    def toggle_hide(self):
-        self.hidden = not self.hidden
+
+    # Currently unused
+    # def toggle_hide(self):
+    #     self.hidden = not self.hidden
 
     @classmethod
     def set_name(cls, value):
-        specials = {
+        """Handles naming of face cards and number cards."""
+        face_cards = {
             14: 'Joker',
             13: 'K',
             12: 'Q',
@@ -74,6 +63,6 @@ class Card(pygame.sprite.Sprite):
             1: 'A'
         }
         try:
-            return specials[value]
+            return face_cards[value]
         except KeyError:
             return str(value)

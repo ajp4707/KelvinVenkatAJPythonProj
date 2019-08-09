@@ -45,7 +45,7 @@ class HorizontalHand(Area):
     width = 800
     height = 133
 
-    def __init__(self, color, params, location="Bottom"):  # TODO Doesn't need all the params, only hand_sort and sort_order. Group them?
+    def __init__(self, color, params, location):  # TODO Doesn't need all the params, only hand_sort and sort_order. Group them?
         self.handy = 75 if location == 'Top' else 625
 
         super().__init__(HorizontalHand.width, HorizontalHand.height, int(SCREEN_WIDTH / 2 - HorizontalHand.width / 2),

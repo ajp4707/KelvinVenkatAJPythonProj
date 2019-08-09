@@ -1,18 +1,17 @@
 from pygame.locals import *
-# from VerticalHand import VerticalHand
-# from HorizontalHand import HorizontalHand
 from HandAreas import *
 from Middle import *
 from DeckArea import DeckArea
 from DiscardArea import DiscardArea
 from pygame.constants import K_s
 from constants import Schemes
+from Deck import Deck
 
 # Screen and Area Constants
 SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 700
 
 
-class GUI(object):
+class GUI:
     def __init__(self, params):
         self.scheme = Schemes.get(params['color_scheme'])
         self.clock = pygame.time.Clock()
@@ -35,22 +34,20 @@ class GUI(object):
     def create_discard(self):
         return DiscardArea(self.scheme[4])
 
-        # Creates middle area and hands.
-
-    def create_hands(self, hand_num, params):
+    # Creates middle area and hands.
+    def create_hands(self, num_hands: int, params) -> list:
+        """Creates a number of HandAreas based on num_hands."""
         hands = []
-        color = self.scheme[2]
+        scheme = self.scheme[2]
         # 1, 2, 3, and 4 are the only accepted arguments for the number of hands
-        hands.append(HorizontalHand(color, params))
-        if hand_num == 2:
-            hands.append(HorizontalHand(color, params, "Top"))
-        elif hand_num == 3:
-            hands.append(VerticalHand(color, params, "Right"))
-            hands.append(VerticalHand(color, params, "Left"))
-        elif hand_num == 4:
-            hands.append(VerticalHand(color, params, "Right"))
-            hands.append(HorizontalHand(color, params, "Top"))
-            hands.append(VerticalHand(color, params, "Left"))
+        hands.append(HorizontalHand(scheme, params, 'Bottom'))
+        if num_hands == 2:
+            hands.append(HorizontalHand(scheme, params, "Top"))
+        elif num_hands >= 3:
+            hands.append(VerticalHand(scheme, params, "Right"))
+            hands.append(VerticalHand(scheme, params, "Left"))
+        elif num_hands == 4:
+            hands.append(HorizontalHand(scheme, params, "Top"))
         return hands
 
     # initialize Deck accepting parameters for whether you want jokers and the previously created hands.

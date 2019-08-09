@@ -1,4 +1,4 @@
-from Deck import *
+import pygame
 
 
 class Area(pygame.sprite.Group):
@@ -11,18 +11,17 @@ class Area(pygame.sprite.Group):
         self.rect.move_ip((x, y))
         self.x = x
         self.y = y
-        # if True, cards in a hand will not be shown
         self.hide_cards = hidden
 
-    def flip(self):
+    def flip(self):  # TODO doc this and streamline if necessary
         for card in self:
             card.hidden = self.hide_cards
 
     def display(self):
-        return
+        pass
 
-    # checks if any cards are inside hand. if so, Card is added to hand Group.
     def update(self, deck):
+        """Checks if any cards are inside hand, and adds them to hand Group."""
         for card in deck.cards:
             if (card.rect.colliderect(self.rect) and self.rect.collidepoint(card.rect.x, card.rect.y) and
                     self.rect.collidepoint(card.rect.x + card.width, card.rect.y + card.height)):
