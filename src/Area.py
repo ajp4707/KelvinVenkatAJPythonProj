@@ -2,7 +2,7 @@ import pygame
 
 
 class Area(pygame.sprite.Group):
-
+    """An ABC for Areas"""
     def __init__(self, width, height, x, y, color, hidden=True):
         super().__init__()
         self.surf = pygame.Surface((width, height))

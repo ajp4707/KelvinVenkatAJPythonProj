@@ -1,26 +1,25 @@
 # Venkat - citing code from pythonprogramming.net
 
 from Toggle import *
-from constants import Color
+from constants import Color, Dimensions
 
 
 class Menu(object):
     # Declaring Objects (buttons)
-    joker_button = Toggle(800, 275, 200, 50, ["No", "Yes"])
-    num_hands_button = Toggle(800, 350, 200, 50, ["One", "Two", "Three", "Four"])
-    color_scheme_button = Toggle(800, 425, 200, 50, ["Dark Puce", "Black", "Midnight Blue", "Dark Blue"])
-    sort_hands_button = Toggle(800, 500, 200, 50, ["Value", "Suit"])
-    order_button = Toggle(800, 575, 200, 50, ["Ascending", "Descending"])
-    begin_button = Toggle(300, 640, 600, 50, ["Begin", ''])
-    buttons = [joker_button, num_hands_button, color_scheme_button, sort_hands_button, order_button, begin_button]
+    left_margin = 800
+    w, h = 200, 50
+    joker_btn = Toggle(left_margin, 275, w, h, ["No", "Yes"])
+    num_hands_btn = Toggle(left_margin, 350, w, h, ["One", "Two", "Three", "Four"])
+    color_scheme_btn = Toggle(left_margin, 425, w, h, ["Dark Puce", "Black", "Midnight Blue", "Dark Blue"])
+    sort_hands_btn = Toggle(left_margin, 500, w, h, ["Value", "Suit"])
+    order_btn = Toggle(left_margin, 575, w, h, ["Ascending", "Descending"])
+    begin_btn = Toggle(300, 640, 600, h, ["Begin", ""])
+    buttons = [joker_btn, num_hands_btn, color_scheme_btn, sort_hands_btn, order_btn, begin_btn]
 
     def __init__(self):
-        # Screen and Hand Constants
-        self.SCREEN_WIDTH = 1200
-        self.SCREEN_HEIGHT = 700
         # initializes pygame module and window
         pygame.init()
-        self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
+        self.screen = pygame.display.set_mode((Dimensions.screen_width, Dimensions.screen_height))
         pygame.display.set_caption('Python Card Simulator v4')
 
     def text_objects(self, text, font, color):
@@ -75,22 +74,22 @@ class Menu(object):
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:
                         for button in Menu.buttons:
-                            if button.x < event.pos[0] < button.x + button.w and button.y < event.pos[
-                                1] < button.y + button.h:
+                            if button.x < event.pos[0] < button.x + button.w and button.y < event.pos[1] \
+                                    < button.y + button.h:
                                 button.rotate()
                 elif event.type == QUIT:
                     running = False
             for button in Menu.buttons:
                 self.draw_button(button)
             # checks if begin was selected, then closes gui and returns values
-            if Menu.begin_button.current_state != 0:
+            if Menu.begin_btn.current_state != 0:
                 pygame.quit()
                 return {
-                    'joker': bool(Menu.joker_button.current_state),
-                    'num_hands': Menu.num_hands_button.current_state + 1,
-                    'color_scheme': Menu.color_scheme_button.selected,
-                    'hand_sort': Menu.sort_hands_button.selected,
-                    'sort_order': Menu.order_button.selected
+                    'joker': bool(Menu.joker_btn.current_state),
+                    'num_hands': Menu.num_hands_btn.current_state + 1,
+                    'color_scheme': Menu.color_scheme_btn.selected,
+                    'hand_sort': Menu.sort_hands_btn.selected,
+                    'sort_order': Menu.order_btn.selected
                 }
 
             pygame.display.flip()

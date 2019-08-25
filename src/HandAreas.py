@@ -1,12 +1,11 @@
-'''
+"""
 Created on Jul 18, 2019
 
 @author: Kel N
-'''
+"""
 from Area import Area
 from Card import Card
-
-SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 700  # TODO move to constants
+from constants import Dimensions
 
 
 class VerticalHand(Area):
@@ -18,7 +17,7 @@ class VerticalHand(Area):
         self.handx = 100 if location == 'Left' else 1100
 
         super().__init__(VerticalHand.width, VerticalHand.height, self.handx - VerticalHand.width / 2,
-                         int(SCREEN_HEIGHT / 2 - VerticalHand.height / 2), color, False)
+                         int(Dimensions.screen_height / 2 - VerticalHand.height / 2), color, False)
 
         self.sortParam = params['hand_sort']
         self.descending_order = False if params['sort_order'] == 'Ascending' else True
@@ -48,7 +47,8 @@ class HorizontalHand(Area):
     def __init__(self, color, params, location):  # TODO Doesn't need all the params, only hand_sort and sort_order. Group them?
         self.handy = 75 if location == 'Top' else 625
 
-        super().__init__(HorizontalHand.width, HorizontalHand.height, int(SCREEN_WIDTH / 2 - HorizontalHand.width / 2),
+        super().__init__(HorizontalHand.width, HorizontalHand.height, int(Dimensions.screen_width
+                                                                          / 2 - HorizontalHand.width / 2),
                          self.handy - HorizontalHand.height / 2, color, False)
 
         self.sortParam = params['hand_sort']

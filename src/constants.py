@@ -45,3 +45,8 @@ class Schemes:
             return cls.DARK_BLUE
         else:
             raise KeyError('Did not receive proper scheme:', scheme)
+
+
+class Dimensions:
+    """Screen and button dimensions."""
+    screen_width, screen_height = 1200, 700

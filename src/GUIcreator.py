@@ -4,11 +4,8 @@ from Middle import *
 from DeckArea import DeckArea
 from DiscardArea import DiscardArea
 from pygame.constants import K_s
-from constants import Schemes
+from constants import Schemes, Dimensions
 from Deck import Deck
-
-# Screen and Area Constants
-SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 700
 
 
 class GUI:
@@ -25,16 +22,15 @@ class GUI:
     # initializes pygame module and window
     def create_screen(self):
         pygame.init()
-        screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        screen = pygame.display.set_mode((Dimensions.screen_width, Dimensions.screen_height))
         pygame.display.set_caption(
-            'Python Card Simulator:   [SPACE] Deal Cards,   [1-4] Player 1-4\'s Turn,   [S] Reshuffle')
+            'Python Card Simulator:   [SPACE] Deal,   [1-4] Player 1-4\'s Turn,   [S] Reshuffle')
         middle = Middle(self.scheme[1])
         return middle, screen
 
     def create_discard(self):
-        return DiscardArea(self.scheme[4])
+        return DiscardArea(self.scheme[4])  # TODO what scheme?
 
-    # Creates middle area and hands.
     def create_hands(self, num_hands: int, params) -> list:
         """Creates a number of HandAreas based on num_hands."""
         hands = []
@@ -50,15 +46,14 @@ class GUI:
             hands.append(HorizontalHand(scheme, params, "Top"))
         return hands
 
-    # initialize Deck accepting parameters for whether you want jokers and the previously created hands.
-    # In the future, determine whose turn it is?
     def make_deck(self, joker):
+        """Initialize the deck with the joker parameter."""
         deck = Deck(joker, 100 - Card.width / 2, 75 - Card.height / 2)
-        deckarea = DeckArea(self.scheme[3], self.hands)
-        deckarea.update(deck)
-        return deck, deckarea
+        deck_area = DeckArea(self.scheme[3], self.hands)
+        deck_area.update(deck)
+        return deck, deck_area
 
-    def blit_screen(self):
+    def blit_screen(self):  # TODO what is a blit screen
         self.screen.fill(self.scheme[0])
         self.screen.blit(self.middle.surf, (self.middle.x, self.middle.y))
         self.screen.blit(self.deckarea.surf, (self.deckarea.x, self.deckarea.y))
@@ -76,8 +71,8 @@ class GUI:
         self.middle.update(self.deck)
         self.discardarea.update(self.deck)
 
-    # Game loop - keeps the window open
-    def run_sim(self):
+    def run(self):
+        """The main game loop."""
         running = True
         while running:
             for event in pygame.event.get():  # checks the queue of events
