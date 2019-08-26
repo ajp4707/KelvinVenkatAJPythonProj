@@ -1,12 +1,9 @@
-# Venkat - citing code from pythonprogramming.net
-
 from Toggle import *
 from constants import Color, Dimensions
 import pygame
 
 
 class Menu(object):
-    # Declaring Objects (buttons)
     left_margin = 800
     w, h = 200, 50
 
@@ -19,19 +16,23 @@ class Menu(object):
     buttons = [joker_btn, num_hands_btn, color_scheme_btn, sort_hands_btn, order_btn, begin_btn]
 
     def __init__(self):
-        # initializes pygame module and window
+        # initializes window
         pygame.init()
         self.screen = pygame.display.set_mode((Dimensions.screen_width, Dimensions.screen_height))
         pygame.display.set_caption('Python Card Simulator v4')
+        self.params = None
+        self.run_menu()
 
-    def text_objects(self, text, font, color):
-        self.textSurface = font.render(text, True, color)  # TODO what's the difference between this and self.TextSurf?
-        return self.textSurface, self.textSurface.get_rect()
+
+    @staticmethod  # TODO class method?
+    def text_objects(text, font, color):
+        text_surface = font.render(text, True, color)  # TODO what's the difference between this and self.TextSurf?
+        return text_surface, text_surface.get_rect()
 
     def disp_text(self, msg, x, y, w, h, font, color):
-        self.TextSurf, self.TextRect = self.text_objects(msg, font, color)
-        self.TextRect.center = ((x + (w / 2)), (y + (h / 2)))
-        self.screen.blit(self.TextSurf, self.TextRect)
+        TextSurf, TextRect = Menu.text_objects(msg, font, color)
+        TextRect.center = ((x + (w / 2)), (y + (h / 2)))
+        self.screen.blit(TextSurf, TextRect)
 
     def draw_labels(self):
         """Draws button descriptions."""
@@ -47,8 +48,8 @@ class Menu(object):
         self.disp_text("Sort hands by", x, 500, w, h, font, color)
         self.disp_text("Sort order", x, 575, w, h, font, color)
 
-    # draws buttons TODO overhaul buttons
     def draw_button(self, button: Toggle):
+        """Creates button objects."""
         button_font = pygame.font.Font('freesansbold.ttf', 20)
         mouse = pygame.mouse.get_pos()
 
@@ -91,13 +92,14 @@ class Menu(object):
             # Start the game?
             if Menu.begin_btn.current_state != 0:
                 pygame.quit()
-                return {
+                self.params = {
                     'joker': bool(Menu.joker_btn.current_state),
                     'num_hands': Menu.num_hands_btn.current_state + 1,
                     'color_scheme': Menu.color_scheme_btn.label,
                     'hand_sort': Menu.sort_hands_btn.label,
                     'sort_order': Menu.order_btn.label
                 }
+                return
 
             pygame.display.flip()
             clock.tick(30)

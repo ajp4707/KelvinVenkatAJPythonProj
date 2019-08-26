@@ -17,6 +17,8 @@ class GUI:
         self.discardarea = DiscardArea(self.scheme[4])
         self.mouse_x, self.mouse_y = 0, 0
 
+        self.run()
+
     def create_screen(self):
         """Initializes window."""
         pygame.init()

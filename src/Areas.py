@@ -35,7 +35,7 @@ class Area(pygame.sprite.Group):
 
 
 class DeckArea(Area):
-
+    """Initial area of the Deck of cards."""
     def __init__(self, color, hand_list):
         super().__init__(Dimensions.vert_hand_w, Dimensions.horiz_hand_h,
                          100 - Dimensions.vert_hand_w / 2,
@@ -53,7 +53,7 @@ class DeckArea(Area):
             return
         card_list = self.sprites()
         for i in range(0, n * hand_num):
-            card_list[i].rect.x = self.hand_list[i % hand_num].x + 5 * i # TODO What is happening here?
+            card_list[i].rect.x = self.hand_list[i % hand_num].x + 5 * i  # TODO What is happening here?
             card_list[i].rect.y = self.hand_list[i % hand_num].y + 5
 
     def display(self):
@@ -96,7 +96,7 @@ class VerticalHand(Area):
                        reverse=self.descending_order)
 
         size = len(order)
-        step = 250 / size
+        step = 250 / size if size > 0 else 0
         count = 0
         for card in order:
             card.rect.x = self.handx - Card.width / 2
@@ -128,8 +128,7 @@ class HorizontalHand(Area):
                        reverse=self.descending_order)
 
         size = len(order)
-        if size:
-            step = 660 / size
+        step = 660 / size if size > 0 else 0
         count = 0
         for card in order:
             card.rect.x = int(275 - Card.width / 2 + step * count)
