@@ -3,9 +3,9 @@ from pygame.constants import RLEACCEL as RLE
 
 
 class Card(pygame.sprite.Sprite):
-    width = 75
-    height = 114
-    back_img = pygame.image.load(f'cardimages/blue_back.png')
+    """A representation of a card."""
+    width, height = 75, 114
+    back_img = pygame.image.load(f'../cardimages/blue_back.png')
     
     def __init__(self, val, suit, x, y):
         super(Card, self).__init__()
@@ -16,7 +16,7 @@ class Card(pygame.sprite.Sprite):
         self.hidden = True
         # Initialize images
         self.image = pygame.transform.scale(
-            pygame.image.load(f'cardimages/{self.name}{self.suit[0]}.png').convert(),
+            pygame.image.load(f'../cardimages/{self.name}{self.suit[0]}.png').convert(),
             (self.width, self.height)
         )
         self.image.set_colorkey((0, 255, 0), RLE)
