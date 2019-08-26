@@ -9,7 +9,7 @@ class Menu(object):
     left_margin = 800
     w, h = 200, 50
     joker_btn = Toggle(left_margin, 275, w, h, ["No", "Yes"])
-    num_hands_btn = Toggle(left_margin, 350, w, h, ["One", "Two", "Three", "Four"])
+    num_hands_btn = Toggle(left_margin, 350, w, h, ["1", "2", "3", "4"])
     color_scheme_btn = Toggle(left_margin, 425, w, h, ["Dark Puce", "Black", "Midnight Blue", "Dark Blue"])
     sort_hands_btn = Toggle(left_margin, 500, w, h, ["Value", "Suit"])
     order_btn = Toggle(left_margin, 575, w, h, ["Ascending", "Descending"])

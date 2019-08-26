@@ -34,7 +34,7 @@ class Schemes:
     DARK_BLUE = (Color.DARK_BLUE, Color.HONEYDEW, Color.SPRING_GREEN, Color.BEIGE, Color.TEAL)
 
     @classmethod
-    def get(cls, scheme):
+    def get(cls, scheme: str) -> tuple:
         if scheme == 'Dark Puce':
             return cls.DARK_PUCE
         elif scheme == 'Black':

@@ -1,7 +1,9 @@
+import pygame
 from Areas import *
-from pygame.constants import K_s
 from constants import Schemes, Dimensions
 from Deck import Deck
+
+deal_num = 1  # TODO refactor somewhere
 
 
 class GUI:
@@ -12,7 +14,7 @@ class GUI:
         self.middle, self.screen = self.create_screen()
         self.hands = self.create_hands(params)
         self.deck, self.deckarea = self.make_deck(params['joker'])
-        self.discardarea = DiscardArea(self.scheme([4]))
+        self.discardarea = DiscardArea(self.scheme[4])
         self.mouse_x, self.mouse_y = 0, 0
 
     def create_screen(self):
@@ -74,42 +76,42 @@ class GUI:
         running = True
         while running:
             for event in pygame.event.get():  # checks the queue of events
-                if event.type == KEYDOWN:  # we can add many more commands here if we want
-                    if event.key == K_ESCAPE:
+                if event.type == pygame.KEYDOWN:  # we can add many more commands here if we want
+                    if event.key == pygame.K_ESCAPE:
                         running = False
-                    elif event.key == K_SPACE:
-                        self.deckarea.deal(7)
+                    elif event.key == pygame.K_SPACE:
+                        self.deckarea.deal(deal_num)
                         self.update_areas()
-                    elif event.key == K_1:
+                    elif event.key == pygame.K_1:
                         for hand in self.hands:
                             hand.hide_cards = True
                         self.hands[0].hide_cards = False
                         for hand in self.hands:
                             hand.update(self.deck)
-                    elif event.key == K_2:
+                    elif event.key == pygame.K_2:
                         for hand in self.hands:
                             hand.hide_cards = True
                         self.hands[1 % len(self.hands)].hide_cards = False
                         for hand in self.hands:
                             hand.update(self.deck)
-                    elif event.key == K_3:
+                    elif event.key == pygame.K_3:
                         for hand in self.hands:
                             hand.hide_cards = True
                         self.hands[2 % len(self.hands)].hide_cards = False
                         for hand in self.hands:
                             hand.update(self.deck)
-                    elif event.key == K_4:
+                    elif event.key == pygame.K_4:
                         for hand in self.hands:
                             hand.hide_cards = True
                         self.hands[3 % len(self.hands)].hide_cards = False
                         for hand in self.hands:
                             hand.update(self.deck)
-                    elif event.key == K_s:
+                    elif event.key == pygame.K_s:
                         for card in self.deck.cards:
                             card.rect.x, card.rect.y = 100 - Card.width / 2, 75 - Card.height / 2
                         self.deck.shuffle()
                         self.update_areas()
-                elif event.type == QUIT:
+                elif event.type == pygame.QUIT:
                     running = False
 
                 # MOUSEBUTTONDOWN 3 is a right click, drags all of the cards. button 1 is a left click, drags one Card
