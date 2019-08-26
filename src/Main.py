@@ -9,5 +9,6 @@ from Menu import *
 menu = Menu()
 params = menu.run_menu()
 
-game = GUIcreator.GUI(params)
-game.run()
+if params is not None:
+    game = GUIcreator.GUI(params)
+    game.run()
