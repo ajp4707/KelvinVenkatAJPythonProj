@@ -46,7 +46,7 @@ class Card(pygame.sprite.Sprite):
             'Diamonds': 2,
             'Clubs': 1
         }
-        return suits[self.suit]
+        return suits[self.suit]  # TODO got a keyerror of 'Red' at some point... strange
 
     # Currently unused
     # def toggle_hide(self):

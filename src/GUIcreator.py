@@ -1,8 +1,5 @@
 from pygame.locals import *
-from HandAreas import *
-from Middle import *
-from DeckArea import DeckArea
-from DiscardArea import DiscardArea
+from Areas import *
 from pygame.constants import K_s
 from constants import Schemes, Dimensions
 from Deck import Deck
