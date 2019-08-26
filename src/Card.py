@@ -33,7 +33,7 @@ class Card(pygame.sprite.Sprite):
         else:
             return self.image
 
-    def get_value(self):
+    def get_value(self):  # TODO replace with @property
         """Used as a key for sorting the Hands by value."""
         return self.value
 
@@ -48,7 +48,6 @@ class Card(pygame.sprite.Sprite):
         }
         return suits[self.suit]  # TODO got a keyerror of 'Red' at some point... strange
 
-    # Currently unused
     # def toggle_hide(self):
     #     self.hidden = not self.hidden
 

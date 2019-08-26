@@ -30,10 +30,6 @@ class Deck:
         for card in self.cards:
             card.hidden = True
 
-    # NEEDS WORK. Move selected cards.rect to specific hand locations.
-    # Perhaps even stagger cards so you can see them all
-    # I propose removing this method from this class and adding it to deckArea class.
-
     # def deal (self, num, x, y):
     #     for i in range(0, num):
     #

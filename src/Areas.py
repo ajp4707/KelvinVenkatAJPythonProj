@@ -34,48 +34,41 @@ class Area(pygame.sprite.Group):
         self.display()
 
 
-HORIZ_HAND_WIDTH, HORIZ_HAND_HEIGHT = 800, 133
-VERT_HAND_WIDTH, VERT_HAND_HEIGHT = 176, 400
-
-
 class DeckArea(Area):
 
-    def __init__(self, color, handlist):
-        super().__init__(VERT_HAND_WIDTH, HORIZ_HAND_HEIGHT,
-                         100 - VERT_HAND_WIDTH / 2,
-                         75 - HORIZ_HAND_HEIGHT / 2,
+    def __init__(self, color, hand_list):
+        super().__init__(Dimensions.vert_hand_w, Dimensions.horiz_hand_h,
+                         100 - Dimensions.vert_hand_w / 2,
+                         75 - Dimensions.horiz_hand_h / 2,
                          color,
                          True
                          )
-        self.handList = handlist
+        self.hand_list = hand_list
 
-    # n is number of cards to deal to each hand
     def deal(self, n):
-        handnum = len(self.handList)
-        if len(self) < n * handnum:
+        """Deal n cards to each player."""
+        hand_num = len(self.hand_list)
+        if len(self) < n * hand_num:
             print("Not enough cards!")
             return
-        cardlist = self.sprites()
-        for i in range(0, n * handnum):
-            cardlist[i].rect.x = self.handList[i % handnum].x + 5 * i
-            cardlist[i].rect.y = self.handList[i % handnum].y + 5
+        card_list = self.sprites()
+        for i in range(0, n * hand_num):
+            card_list[i].rect.x = self.hand_list[i % hand_num].x + 5 * i # TODO What is happening here?
+            card_list[i].rect.y = self.hand_list[i % hand_num].y + 5
 
     def display(self):
         for card in self:
             card.rect.x, card.rect.y = 100 - Card.width / 2, 75 - Card.height / 2
 
 
-MIDDLE_WIDTH, MIDDLE_HEIGHT = 800, 400
-
-
 class Middle(Area):
     """Represents the main playing field where all cards are visible."""
 
     def __init__(self, color):
-        super().__init__(MIDDLE_WIDTH,
-                         MIDDLE_HEIGHT,
-                         Dimensions.screen_width / 2 - MIDDLE_WIDTH / 2,
-                         Dimensions.screen_height / 2 - MIDDLE_HEIGHT / 2,
+        super().__init__(Dimensions.middle_w,
+                         Dimensions.middle_h,
+                         Dimensions.screen_width / 2 - Dimensions.middle_w / 2,
+                         Dimensions.screen_height / 2 - Dimensions.middle_h / 2,
                          color,
                          False
                          )
@@ -147,9 +140,9 @@ class HorizontalHand(Area):
 class DiscardArea(Area):
     # Similar to hand properties, but cards in middle are all shown
     def __init__(self, color):
-        super().__init__(VERT_HAND_WIDTH, HORIZ_HAND_HEIGHT,
-                         1100 - VERT_HAND_WIDTH / 2,
-                         625 - HORIZ_HAND_HEIGHT / 2,
+        super().__init__(Dimensions.vert_hand_w, Dimensions.horiz_hand_h,
+                         1100 - Dimensions.vert_hand_w / 2,
+                         625 - Dimensions.horiz_hand_h / 2,
                          color,
                          True
                          )

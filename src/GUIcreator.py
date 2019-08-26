@@ -1,4 +1,3 @@
-from pygame.locals import *
 from Areas import *
 from pygame.constants import K_s
 from constants import Schemes, Dimensions
@@ -6,40 +5,41 @@ from Deck import Deck
 
 
 class GUI:
+    """Runs the main game loop. Handles logic and graphics."""
     def __init__(self, params):
         self.scheme = Schemes.get(params['color_scheme'])
         self.clock = pygame.time.Clock()
         self.middle, self.screen = self.create_screen()
-        self.hands = self.create_hands(params['num_hands'], params)
+        self.hands = self.create_hands(params)
         self.deck, self.deckarea = self.make_deck(params['joker'])
-        self.discardarea = self.create_discard()
-        # mouse variables
+        self.discardarea = DiscardArea(self.scheme([4]))
         self.mouse_x, self.mouse_y = 0, 0
 
-    # initializes pygame module and window
     def create_screen(self):
+        """Initializes window."""
         pygame.init()
         screen = pygame.display.set_mode((Dimensions.screen_width, Dimensions.screen_height))
         pygame.display.set_caption(
             'Python Card Simulator:   [SPACE] Deal,   [1-4] Player 1-4\'s Turn,   [S] Reshuffle')
+        # Create the middle area, since it never changes.
         middle = Middle(self.scheme[1])
         return middle, screen
 
-    def create_discard(self):
-        return DiscardArea(self.scheme[4])  # TODO what scheme?
-
-    def create_hands(self, num_hands: int, params) -> list:
+    def create_hands(self, params) -> list:
         """Creates a number of HandAreas based on num_hands."""
         hands = []
+        num_hands = params['num_hands']
         scheme = self.scheme[2]
-        # 1, 2, 3, and 4 are the only accepted arguments for the number of hands
+        # Add the bottom hand
         hands.append(HorizontalHand(scheme, params, 'Bottom'))
+        # Add the top and/or side hands
         if num_hands == 2:
             hands.append(HorizontalHand(scheme, params, "Top"))
         elif num_hands >= 3:
             hands.append(VerticalHand(scheme, params, "Right"))
             hands.append(VerticalHand(scheme, params, "Left"))
-        elif num_hands == 4:
+        # Finally, add the top hand (if four players)
+        if num_hands == 4:
             hands.append(HorizontalHand(scheme, params, "Top"))
         return hands
 
@@ -50,7 +50,8 @@ class GUI:
         deck_area.update(deck)
         return deck, deck_area
 
-    def blit_screen(self):  # TODO what is a blit screen
+    def blit_screen(self):
+        """Draws textures onto shapes, areas, cards, everything!"""
         self.screen.fill(self.scheme[0])
         self.screen.blit(self.middle.surf, (self.middle.x, self.middle.y))
         self.screen.blit(self.deckarea.surf, (self.deckarea.x, self.deckarea.y))
@@ -112,7 +113,7 @@ class GUI:
                     running = False
 
                 # MOUSEBUTTONDOWN 3 is a right click, drags all of the cards. button 1 is a left click, drags one Card
-                # Logic and some code to drag and drop cards came from this website
+                # Logic to drag and drop cards from:
                 # https://stackoverflow.com/questions/41332861/click-and-drag-a-rectangle-with-pygame
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 3:
@@ -123,14 +124,14 @@ class GUI:
                                 offset_x = card.rect.x - mouse_x
                                 offset_y = card.rect.y - mouse_y
                     elif event.button == 1:
-                        for i in range(len(self.deck.cards) - 1, -1, -1):
+                        for i in range(len(self.deck.cards) - 1, -1, -1):  # TODO what is this loop doing?
                             if self.deck.cards[i].rect.collidepoint(event.pos):
                                 self.deck.cards[i].dragging = True
                                 mouse_x, mouse_y = event.pos
                                 offset_x = self.deck.cards[i].rect.x - mouse_x
                                 offset_y = self.deck.cards[i].rect.y - mouse_y
-                                self.deck.cards.append(self.deck.cards.pop(
-                                    i))  # Put grabbed cards at the end of the Deck, they will blit on top
+                                # Put grabbed cards at the end of the Deck, they will blit on top
+                                self.deck.cards.append(self.deck.cards.pop(i))
                                 break
                 # For efficiency, Hands only check if cards have been added to them after MOUSEBUTTONUP
                 elif event.type == pygame.MOUSEBUTTONUP:

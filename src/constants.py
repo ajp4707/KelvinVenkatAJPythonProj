@@ -48,5 +48,9 @@ class Schemes:
 
 
 class Dimensions:
-    """Screen and button dimensions."""
+    """Screen, Area, and button dimensions."""
+    # Should these be uppercase? Probably. Whatever.
     screen_width, screen_height = 1200, 700
+    horiz_hand_w, horiz_hand_h = 800, 133
+    vert_hand_w, vert_hand_h = 176, 400
+    middle_w, middle_h = 800, 400
