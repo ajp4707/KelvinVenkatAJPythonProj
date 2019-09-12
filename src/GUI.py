@@ -3,11 +3,17 @@ from Areas import *
 from constants import Schemes, Dimensions
 from Deck import Deck
 
-deal_num = 1  # TODO refactor somewhere
+"""The number of cards dealt to players when [space] is pressed"""
+deal_num = 1
 
 
 class GUI:
     """Runs the main game loop. Handles logic and graphics."""
+
+    # For memory efficiency
+    __slots__ = ('scheme', 'clock', 'middle', 'screen', 'hands', 'deck',
+                 'deckarea', 'discardarea', 'mouse_x', 'mouse_y')
+
     def __init__(self, params):
         self.scheme = Schemes.get(params['color_scheme'])
         self.clock = pygame.time.Clock()
@@ -29,7 +35,7 @@ class GUI:
         middle = Middle(self.scheme[1])
         return middle, screen
 
-    def create_hands(self, params) -> list:
+    def create_hands(self, params):
         """Creates a number of HandAreas based on num_hands."""
         hands = []
         num_hands = params['num_hands']
@@ -77,38 +83,24 @@ class GUI:
         """The main game loop."""
         running = True
         while running:
-            for event in pygame.event.get():  # checks the queue of events
-                if event.type == pygame.KEYDOWN:  # we can add many more commands here if we want
-                    if event.key == pygame.K_ESCAPE:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    num_keys = {pygame.K_1: 0, pygame.K_2: 1, pygame.K_3: 2, pygame.K_4: 3}
+                    if event.key == pygame.K_ESCAPE:  # Quits game
                         running = False
-                    elif event.key == pygame.K_SPACE:
+                    elif event.key == pygame.K_SPACE:  # Deals cards
                         self.deckarea.deal(deal_num)
                         self.update_areas()
-                    elif event.key == pygame.K_1:
+                    elif event.key in num_keys:  # Changes player number (Flips other hands)
                         for hand in self.hands:
-                            hand.hide_cards = True
-                        self.hands[0].hide_cards = False
-                        for hand in self.hands:
-                            hand.update(self.deck)
-                    elif event.key == pygame.K_2:
-                        for hand in self.hands:
-                            hand.hide_cards = True
-                        self.hands[1 % len(self.hands)].hide_cards = False
+                            hand.cards_hidden = True
+                        try:
+                            self.hands[num_keys[event.key]].cards_hidden = False
+                        except IndexError:
+                            print('That player doesn\'t exist!')
                         for hand in self.hands:
                             hand.update(self.deck)
-                    elif event.key == pygame.K_3:
-                        for hand in self.hands:
-                            hand.hide_cards = True
-                        self.hands[2 % len(self.hands)].hide_cards = False
-                        for hand in self.hands:
-                            hand.update(self.deck)
-                    elif event.key == pygame.K_4:
-                        for hand in self.hands:
-                            hand.hide_cards = True
-                        self.hands[3 % len(self.hands)].hide_cards = False
-                        for hand in self.hands:
-                            hand.update(self.deck)
-                    elif event.key == pygame.K_s:
+                    elif event.key == pygame.K_s:  # Reshuffles the deck
                         for card in self.deck.cards:
                             card.rect.x, card.rect.y = 100 - Card.width / 2, 75 - Card.height / 2
                         self.deck.shuffle()
@@ -123,14 +115,14 @@ class GUI:
                     if event.button == 3:
                         for card in self.deck.cards:
                             if card.rect.collidepoint(event.pos):
-                                card.dragging = True
+                                card.draggable = True
                                 mouse_x, mouse_y = event.pos
                                 offset_x = card.rect.x - mouse_x
                                 offset_y = card.rect.y - mouse_y
                     elif event.button == 1:
                         for i in range(len(self.deck.cards) - 1, -1, -1):  # TODO what is this loop doing?
                             if self.deck.cards[i].rect.collidepoint(event.pos):
-                                self.deck.cards[i].dragging = True
+                                self.deck.cards[i].draggable = True
                                 mouse_x, mouse_y = event.pos
                                 offset_x = self.deck.cards[i].rect.x - mouse_x
                                 offset_y = self.deck.cards[i].rect.y - mouse_y
@@ -148,7 +140,7 @@ class GUI:
 
                 elif event.type == pygame.MOUSEMOTION:
                     for card in self.deck.cards:
-                        if card.dragging:
+                        if card.draggable:
                             mouse_x, mouse_y = event.pos
                             card.rect.x = mouse_x + offset_x
                             card.rect.y = mouse_y + offset_y

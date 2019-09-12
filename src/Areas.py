@@ -4,7 +4,10 @@ from Card import Card
 
 
 class Area(pygame.sprite.Group):
-    """An ABC for Areas"""
+    """An 'Abstract' (not technically) Base Class for Areas"""
+
+    __slots__ = ('surf', 'rect', 'x', 'y', 'cards_hidden')
+
     def __init__(self, width, height, x, y, color, hidden=True):
         super().__init__()
         self.surf = pygame.Surface((width, height))
@@ -13,11 +16,12 @@ class Area(pygame.sprite.Group):
         self.rect.move_ip((x, y))
         self.x = x
         self.y = y
-        self.hide_cards = hidden
+        self.cards_hidden = hidden
 
-    def flip(self):  # TODO doc this and streamline if necessary
+    def flip(self):
+        """Flips all the cards in a Hand to the same orientation."""
         for card in self:
-            card.hidden = self.hide_cards
+            card.hidden = self.cards_hidden
 
     def display(self):
         pass
@@ -49,7 +53,7 @@ class DeckArea(Area):
         """Deal n cards to each player."""
         hand_num = len(self.hand_list)
         if len(self) < n * hand_num:
-            print("Not enough cards!")
+            print("Not enough cards to deal!")
             return
         card_list = self.sprites()
         for i in range(0, n * hand_num):
@@ -63,7 +67,6 @@ class DeckArea(Area):
 
 class Middle(Area):
     """Represents the main playing field where all cards are visible."""
-
     def __init__(self, color):
         super().__init__(Dimensions.middle_w,
                          Dimensions.middle_h,
@@ -109,7 +112,7 @@ class HorizontalHand(Area):
     width = 800
     height = 133
 
-    def __init__(self, color, params, location):  # TODO Doesn't need all the params, only hand_sort and sort_order. Group them?
+    def __init__(self, color, params, location):
         self.handy = 75 if location == 'Top' else 625
 
         super().__init__(HorizontalHand.width, HorizontalHand.height, int(Dimensions.screen_width
@@ -137,7 +140,7 @@ class HorizontalHand(Area):
 
 
 class DiscardArea(Area):
-    # Similar to hand properties, but cards in middle are all shown
+    """The discard area in the bottom right of the screen."""
     def __init__(self, color):
         super().__init__(Dimensions.vert_hand_w, Dimensions.horiz_hand_h,
                          1100 - Dimensions.vert_hand_w / 2,

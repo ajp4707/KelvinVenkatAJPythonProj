@@ -15,23 +15,19 @@ class Card(pygame.sprite.Sprite):
         self.suit = suit
         self.hidden = True
         # Initialize images
-        self.image = pygame.transform.scale(
+        self.front_img = pygame.transform.scale(
             pygame.image.load(f'../cardimages/{self.name}{self.suit[0]}.png').convert(),
             (self.width, self.height)
         )
-        self.image.set_colorkey((0, 255, 0), RLE)
-        self.back = pygame.transform.scale(self.back_img.convert(), (self.width, self.height))
-        self.back.set_colorkey((0, 255, 0), RLE)
-        self.rect = self.image.get_rect()
-        self.rect.x = x 
-        self.rect.y = y
-        self.dragging = False
+        self.front_img.set_colorkey((0, 255, 0), RLE)
+        self.back_img = pygame.transform.scale(self.back_img.convert(), (self.width, self.height))
+        self.back_img.set_colorkey((0, 255, 0), RLE)
+        self.rect = self.front_img.get_rect()
+        self.rect.x, self.rect.y = x, y
+        self.draggable = False
         
     def get_image(self):
-        if self.hidden:
-            return self.back
-        else:
-            return self.image
+        return self.back_img if self.hidden else self.front_img
 
     def get_value(self):  # TODO replace with @property
         """Used as a key for sorting the Hands by value."""
@@ -39,17 +35,13 @@ class Card(pygame.sprite.Sprite):
 
     def get_suit_value(self):
         """Used as a key for sorting the Hands by suit."""
-
         suits = {
             'Spades': 4,
             'Hearts': 3,
             'Diamonds': 2,
             'Clubs': 1
         }
-        return suits[self.suit]  # TODO got a keyerror of 'Red' at some point... strange
-
-    # def toggle_hide(self):
-    #     self.hidden = not self.hidden
+        return suits[self.suit]
 
     @classmethod
     def set_name(cls, value):

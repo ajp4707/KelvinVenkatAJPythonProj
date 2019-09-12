@@ -23,30 +23,29 @@ class Menu(object):
         self.params = None
         self.run_menu()
 
-
     @staticmethod  # TODO class method?
-    def text_objects(text, font, color):
-        text_surface = font.render(text, True, color)  # TODO what's the difference between this and self.TextSurf?
+    def text_objects(text, font, text_color):
+        text_surface = font.render(text, True, text_color)  # TODO what's the difference between this and self.TextSurf?
         return text_surface, text_surface.get_rect()
 
-    def disp_text(self, msg, x, y, w, h, font, color):
-        TextSurf, TextRect = Menu.text_objects(msg, font, color)
-        TextRect.center = ((x + (w / 2)), (y + (h / 2)))
-        self.screen.blit(TextSurf, TextRect)
+    def disp_text(self, msg, x, y, w, h, font, text_color):
+        text_surf, text_rect = Menu.text_objects(msg, font, text_color)
+        text_rect.center = ((x + (w / 2)), (y + (h / 2)))
+        self.screen.blit(text_surf, text_rect)
 
     def draw_labels(self):
         """Draws button descriptions."""
         title_font = pygame.font.Font('freesansbold.ttf', 80)
         font = pygame.font.Font('freesansbold.ttf', 30)
-        color = Color.BLACK
+        label_color = Color.BLACK
 
         x, w, h = 25, 600, 50
-        self.disp_text("Python Card Sim v4.0", 200, 100, 800, 100, title_font, color)
-        self.disp_text("Include Joker", x, 275, w, h, font, color)
-        self.disp_text("Number of Players", x, 350, w, h, font, color)
-        self.disp_text("Choose your theme", x, 425, w, h, font, color)
-        self.disp_text("Sort hands by", x, 500, w, h, font, color)
-        self.disp_text("Sort order", x, 575, w, h, font, color)
+        self.disp_text("Python Card Sim v4.0", 200, 100, 800, 100, title_font, label_color)
+        self.disp_text("Include Joker", x, 275, w, h, font, label_color)
+        self.disp_text("Number of Players", x, 350, w, h, font, label_color)
+        self.disp_text("Choose your theme", x, 425, w, h, font, label_color)
+        self.disp_text("Sort hands by", x, 500, w, h, font, label_color)
+        self.disp_text("Sort order", x, 575, w, h, font, label_color)
 
     def draw_button(self, button: Toggle):
         """Creates button objects."""
