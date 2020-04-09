@@ -1,15 +1,21 @@
-#Venkat - citing code from pythonprogramming.net
+# Venkat - citing code from pythonprogramming.net
 import sys
 import pygame
 from pygame.locals import*
 
 
 class Toggle:
-    def __init__(self, x, y, w, h, mod):
-        self.mod = mod
-        self.attr = 0
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
-        self.state = mod[self.attr%2]
+    """A button that loops through various states."""
+    def __init__(self, coords: tuple, w_h: tuple, options: [str]):
+        self.options = options
+        self.current_state = 0
+        self.x, self.y = coords
+        self.w, self.h = w_h
+        self.label = self.options[self.current_state]
+
+    def rotate(self):
+        """Rotates around the list one at a time."""  # Returns current state."""
+        self.current_state += 1
+        self.current_state %= len(self.options)
+        self.label = self.options[self.current_state]
+        # return self.options[self.current_state]
